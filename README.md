@@ -1,6 +1,6 @@
 # Stockfinder (WIP)
 
-Proggetto personale SIW 2023 Luca Foresti, Saverio Piana
+Progetto personale SIW 2023 Luca Foresti, Saverio Piana
 
 # Esperienze Utente
 
