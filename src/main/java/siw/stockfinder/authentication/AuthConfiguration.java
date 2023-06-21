@@ -17,6 +17,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
 
+import static siw.stockfinder.model.Credentials.ADMIN_ROLE;
+
 @Configuration
 @EnableWebSecurity
 public class AuthConfiguration {
@@ -48,7 +50,7 @@ public class AuthConfiguration {
         httpSecurity
                 .csrf().and().cors().disable()
                 .authorizeHttpRequests()
-//                .requestMatchers("/**").permitAll()
+                .requestMatchers("/**").permitAll()
                 // chiunque (autenticato o no) può accedere alle pagine index, login, register, ai css e alle immagini
                 .requestMatchers(HttpMethod.GET,"/","/index","/register","/css/**", "/images/**", "favicon.ico",
                         "/upload/**").permitAll()
@@ -62,7 +64,7 @@ public class AuthConfiguration {
                 // tutti gli utenti possono accere alle pagine rimanenti
                 .anyRequest().permitAll()
                 // LOGIN: qui definiamo il login
-                .and().formLogin()
+                .and(). formLogin()
                 .loginPage("/login")
                 .permitAll()
                 .defaultSuccessUrl("/success", true)
