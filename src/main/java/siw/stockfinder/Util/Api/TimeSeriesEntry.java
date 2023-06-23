@@ -4,57 +4,57 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class TimeSeriesEntry {
     @JsonProperty("1. open")
-    private String open;
+    private float open;
 
     @JsonProperty("2. high")
-    private String high;
+    private float high;
 
     @JsonProperty("3. low")
-    private String low;
+    private float low;
 
     @JsonProperty("4. close")
-    private String close;
+    private float close;
 
     @JsonProperty("5. volume")
-    private String volume;
+    private int volume;
 
-    public String getOpen() {
+    public float getOpen() {
         return open;
     }
 
-    public void setOpen(String open) {
+    public void setOpen(float open) {
         this.open = open;
     }
 
-    public String getHigh() {
+    public float getHigh() {
         return high;
     }
 
-    public void setHigh(String high) {
+    public void setHigh(float high) {
         this.high = high;
     }
 
-    public String getLow() {
+    public float getLow() {
         return low;
     }
 
-    public void setLow(String low) {
+    public void setLow(float low) {
         this.low = low;
     }
 
-    public String getClose() {
+    public float getClose() {
         return close;
     }
 
-    public void setClose(String close) {
+    public void setClose(float close) {
         this.close = close;
     }
 
-    public String getVolume() {
+    public int getVolume() {
         return volume;
     }
 
-    public void setVolume(String volume) {
+    public void setVolume(int volume) {
         this.volume = volume;
     }
 }

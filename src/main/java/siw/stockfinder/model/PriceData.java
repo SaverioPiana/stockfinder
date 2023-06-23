@@ -18,19 +18,24 @@ public class PriceData {
     @NotNull
     private LocalDateTime timeStamp;
     @NotNull
-    private float price;
+    private float open;
+    @NotNull
+    private float close;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        PriceData priceData = (PriceData) o;
-        return Float.compare(priceData.price, price) == 0 && Objects.equals(timeStamp, priceData.timeStamp);
+    public float getOpen() {
+        return open;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(timeStamp, price);
+    public void setOpen(float open) {
+        this.open = open;
+    }
+
+    public float getClose() {
+        return close;
+    }
+
+    public void setClose(float close) {
+        this.close = close;
     }
 
     public Long getId() {
@@ -49,11 +54,5 @@ public class PriceData {
         this.timeStamp = timeStamp;
     }
 
-    public float getPrice() {
-        return price;
-    }
 
-    public void setPrice(float price) {
-        this.price = price;
-    }
 }

@@ -15,8 +15,8 @@ public class Stock {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @NotBlank
-    private String symbol; //Abbreviation
-    @OneToMany
+    private String symbol;
+    @OneToMany(cascade = CascadeType.ALL)
     private List<PriceData> priceHistory;
 
     @Override
