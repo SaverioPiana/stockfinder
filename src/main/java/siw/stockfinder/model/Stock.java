@@ -1,7 +1,10 @@
 package siw.stockfinder.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.AssertFalse;
 import jakarta.validation.constraints.NotBlank;
+import org.springframework.beans.factory.annotation.Autowired;
+import siw.stockfinder.service.ApiService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
