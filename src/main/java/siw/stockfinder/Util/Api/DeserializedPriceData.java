@@ -10,9 +10,10 @@ import java.util.List;
 import java.util.Map;
 
 public class DeserializedPriceData {
+    @JsonProperty("3. Last Refreshed")
+    private String lastRefreshed;
     @JsonProperty("Time Series (5min)")
     private Map<String, TimeSeriesEntry> timeSeries;
-
 
     public Map<String, TimeSeriesEntry> getTimeSeries() {
         return timeSeries;

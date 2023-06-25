@@ -21,6 +21,7 @@ public class Stock {
     private String symbol;
     @OneToMany(cascade = CascadeType.ALL)
     private List<PriceData> priceHistory;
+    private LocalDateTime lastUpdated;
 
     @Override
     public boolean equals(Object o) {
@@ -33,6 +34,14 @@ public class Stock {
     @Override
     public int hashCode() {
         return Objects.hash(symbol);
+    }
+
+    public LocalDateTime getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(LocalDateTime lastUpdated) {
+        this.lastUpdated = lastUpdated;
     }
 
     public Long getId() {

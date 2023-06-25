@@ -7,9 +7,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import siw.stockfinder.Util.Api.DeserializedPriceData;
+import siw.stockfinder.model.PriceData;
 import siw.stockfinder.model.Stock;
 import siw.stockfinder.service.ApiService;
 import siw.stockfinder.service.StockService;
+
+import java.util.List;
 
 @Controller
 public class StockController {
@@ -63,8 +67,7 @@ public class StockController {
     @PostMapping("/admin/stock")
     public String saveStock(Stock stock){
         if(!stockService.existsBySymbol(stock.getSymbol())){
-            stock.setPriceHistory(apiService.fetchPriceData(stock.getSymbol()));
-            stockService.save(stock);
+           stockService.addNewStock(stock);
         }
         return "redirect:/admin/stock";
     }
