@@ -5,10 +5,12 @@
     <title>New Stock</title>
 </head>
 <body>
-<form action="/admin/stock" method="POST">
+<form th:action="@{/admin/stock}" method="POST" >
     <label for="symbol">Symbol</label>
     <input type="text" name="name" id="symbol" th:field="${stock.symbol}" required>
-    <input type="submit" value="Submit">
+    <div>
+        <span><button type="submit">Conferma</button></span>
+    </div>
 </form>
 </body>
 </html>
