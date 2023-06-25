@@ -31,3 +31,5 @@ build/
 
 ### VS Code ###
 .vscode/
+### ApiKey ###
+/src/main/resources/application-dev.properties
