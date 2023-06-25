@@ -50,7 +50,7 @@ public class AuthConfiguration {
         httpSecurity
                 .csrf().and().cors().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/**").permitAll()
+                //.requestMatchers("/**").permitAll()
                 // chiunque (autenticato o no) può accedere alle pagine index, login, register, ai css e alle immagini
                 .requestMatchers(HttpMethod.GET,"/","/index","/register","/css/**", "/images/**", "favicon.ico",
                         "/upload/**").permitAll()

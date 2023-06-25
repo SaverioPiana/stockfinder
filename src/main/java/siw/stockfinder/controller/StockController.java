@@ -20,10 +20,6 @@ public class StockController {
 
     @GetMapping("/stock")
     public String showAllStocks(Model model){
-        Stock stock = new Stock();
-        stock.setSymbol("ABC");
-        stock.setPriceHistory(apiService.fetchPriceData("ABC"));
-        stockService.save(stock);
         model.addAttribute(stockService.findAll());
         return "stocks";
     }

@@ -16,6 +16,10 @@ public class StockService {
         stockRepository.save(stock);
     }
     @Transactional
+    public void delete(Stock stock){
+        stockRepository.delete(stock);
+    }
+    @Transactional
     public boolean existsBySymbol(String symbol){
         return stockRepository.existsBySymbol(symbol);
     }
