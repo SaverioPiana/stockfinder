@@ -1,0 +1,12 @@
+
+
+body{
+    font-family: Calibri;
+}
+
+header{
+    background-color: lightslategray;
+    display: flex;
+    justify-content: space-between;
+    font-size: medium;
+}
