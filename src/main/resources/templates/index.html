@@ -10,10 +10,16 @@
 <body>
 
     <div th:replace="fragments/header :: header"></div>
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <h1>Benvenuto nella pagina di amministrazione</h1>
+    <div class="container" style="height: 600px">
+        <div class="row" style="margin: 100px">
+            <div class="col-6">
+                <img src="/images/StockFinder_2.png" alt="StockFinder" class="img-responsive" height="400px" width="1000px">
+            </div>
+            <div class="row" >
+                <form th:action="@{/showStock}" method="GET" >
+                    <input type="text" name="name" id="symbol" th:field="${stock.symbol}">
+                    <span><button type="submit">Conferma</button></span>
+                </form>
             </div>
         </div>
     </div>
