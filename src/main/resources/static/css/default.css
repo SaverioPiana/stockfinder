@@ -1,11 +1,12 @@
 
 
-/* Per il css de''header */
+/* Per il css dell'header */
 @import 'static/css/header.css';
 
-body{
+/* Per il css del formNewStock */
+@import 'static/css/formNewStock.css';
 
-}
+
 
 .h-search-form{
     width: 100%;
