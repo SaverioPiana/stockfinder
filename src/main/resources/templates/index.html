@@ -5,23 +5,36 @@
     <title>HomePage</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/css/default.css"/>
+
+    <style>
+        .focus-no-outline:focus {
+            outline: none;
+        }
+
+        .mh-500px {
+            max-height: 500px;
+        }
+
+        .hover-success-subtle:hover {
+            background-color: #a3cfbb!important;
+            transition: background-color ease-in 200ms;
+        }
+    </style>
+
 </head>
 <body>
 
-    <div th:replace="fragments/header :: header"></div>
+<div th:replace="fragments/header :: header"></div>
 
-    <div class="container" style="height: 600px">
-        <div class="row h-search-img">
-            <img src="/images/StockFinder_2.png" alt="StockFinder" class="img-responsive" height="450px" width="1000px">
-        </div>
-        <div class="row h-search-form" >
-            <form class="search-form" action="#" >
-                <input type="search" name="search" placeholder="Search stock ... ">
-                <button><img src="/images/search_icon.svg"  alt="search" height="40px" width="40px"></button>
-            </form>
-        </div>
-    </div>
+<div class="container d-flex flex-column">
+    <img class="img-fluid mh-500px" src="/images/StockFinder_2.png" alt="StockFinder">
+        <form class="d-flex p-2 rounded-4 border border-success border-2 justify-content-between" action="#">
+            <input class="px-3 focus-no-outline border-0 flex-grow-1" type="text" name="search" placeholder="Search stock ... ">
+            <button class="hover-success-subtle bg-transparent rounded-circle border border-success-subtle border-2" style="height: 40px; aspect-ratio: 1;">
+                <img src="/images/search_icon.svg" alt="search">
+            </button>
+        </form>
+</div>
 </body>
 
 </html>
