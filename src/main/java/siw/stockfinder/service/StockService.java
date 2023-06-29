@@ -8,7 +8,8 @@ import siw.stockfinder.model.PriceData;
 import siw.stockfinder.model.Stock;
 import siw.stockfinder.repository.StockRepository;
 
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.SortedMap;
 
 @Service
 public class StockService {
@@ -44,26 +45,25 @@ public class StockService {
         for(Stock stock : stocks){
             //to avoid lazy initialization exception
             Hibernate.initialize(stock.getPriceHistory());
-            List<PriceData> priceDataList = apiService.fetchPriceData(stock.getSymbol());
+            SortedMap<LocalDateTime, PriceData> priceDataSortedMap = apiService.fetchPriceData(stock.getSymbol());
             boolean updated = false;
-            for (PriceData priceData : priceDataList) {
-                if(priceData.getTimeStamp().isAfter(stock.getLastUpdated())){
-                    stock.getPriceHistory().add(priceData);
+            for (LocalDateTime key : priceDataSortedMap.keySet()) {
+                PriceData priceData=priceDataSortedMap.get(key);
+                if(priceData.getTimeStamp().isAfter(stock.getPriceHistory().lastKey())){
+                    stock.getPriceHistory().put(priceData.getTimeStamp(), priceData);
                     updated = true;
                 }
                 else break;
             }
             if(updated){
-                stock.setLastUpdated(priceDataList.get(0).getTimeStamp());
                 stockRepository.save(stock);
             }
         }
     }
 @Transactional
     public void addNewStock(Stock stock) {
-        List<PriceData> priceDataList = apiService.fetchPriceData(stock.getSymbol());
-        stock.setPriceHistory(priceDataList);
-        stock.setLastUpdated(priceDataList.get(0).getTimeStamp());
+        SortedMap<LocalDateTime, PriceData> priceDataSortedMap = apiService.fetchPriceData(stock.getSymbol());
+        stock.setPriceHistory(priceDataSortedMap);
         stockRepository.save(stock);
     }
 }

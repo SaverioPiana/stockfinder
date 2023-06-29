@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.SortedMap;
 
 @Entity
 public class Stock {
@@ -20,9 +21,25 @@ public class Stock {
     @NotBlank
     private String symbol;
     @OneToMany(cascade = CascadeType.ALL)
-    private List<PriceData> priceHistory;
-    private LocalDateTime lastUpdated;
-
+    @MapKey(name = "timeStamp")
+    private SortedMap<LocalDateTime, PriceData> priceHistory;
+    public float getLastPrice(){
+        float lastPrice = 0;
+        if(priceHistory.size()>0){
+            lastPrice = priceHistory.get(priceHistory.lastKey()).getClose();
+        }
+        return lastPrice;
+    }
+    public float getDaysVariation(int numberOfDays){
+        float variation = 0;
+        if(priceHistory.size()>0){
+            PriceData lastPrice = priceHistory.get(priceHistory.lastKey());
+            PriceData firstPrice = priceHistory.get(priceHistory.lastKey().minus(numberOfDays, java.time.temporal.ChronoUnit.DAYS));
+            if(firstPrice==null) firstPrice = priceHistory.get(priceHistory.firstKey());
+            variation = (lastPrice.getClose()-firstPrice.getOpen())/firstPrice.getOpen()*100;
+        }
+        return variation;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -35,15 +52,6 @@ public class Stock {
     public int hashCode() {
         return Objects.hash(symbol);
     }
-
-    public LocalDateTime getLastUpdated() {
-        return lastUpdated;
-    }
-
-    public void setLastUpdated(LocalDateTime lastUpdated) {
-        this.lastUpdated = lastUpdated;
-    }
-
     public Long getId() {
         return id;
     }
@@ -60,11 +68,11 @@ public class Stock {
         this.symbol = symbol;
     }
 
-    public List<PriceData> getPriceHistory() {
+    public SortedMap<LocalDateTime, PriceData> getPriceHistory() {
         return priceHistory;
     }
 
-    public void setPriceHistory(List<PriceData> priceHistory) {
+    public void setPriceHistory(SortedMap<LocalDateTime, PriceData> priceHistory) {
         this.priceHistory = priceHistory;
     }
 }
