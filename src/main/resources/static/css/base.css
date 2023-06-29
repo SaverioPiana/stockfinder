@@ -8,3 +8,6 @@
 .vh-60{
     height: 60vh!important;
 }
+.clickable-row:hover{
+    cursor:pointer;
+}

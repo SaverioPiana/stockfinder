@@ -25,7 +25,7 @@ public class StockController {
 
     @GetMapping("/stock")
     public String showAllStocks(Model model){
-        model.addAttribute(stockService.findAll());
+        model.addAttribute("stocks",stockService.findAll());
         return "stocks";
     }
     @GetMapping("/stock/{id}")
@@ -44,7 +44,7 @@ public class StockController {
 
     @GetMapping("/admin/stock")
     public String showAllStocksAdmin(Model model){
-        model.addAttribute(stockService.findAll());
+        model.addAttribute("stocks",stockService.findAll());
         return "admin/stocks";
     }
     @GetMapping("/admin/stock/{id}")
