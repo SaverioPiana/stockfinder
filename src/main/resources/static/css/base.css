@@ -1,0 +1,10 @@
+.focus-no-outline:focus {
+    outline: none;
+}
+.hover-success-subtle:hover {
+    background-color: #a3cfbb!important;
+    transition: background-color ease-in 200ms;
+}
+.vh-60{
+    height: 60vh!important;
+}

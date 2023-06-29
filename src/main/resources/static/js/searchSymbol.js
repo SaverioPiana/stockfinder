@@ -31,8 +31,10 @@ async function searchSymbol() {
             const name = match['2. name'];
             const region = match['4. region'];
 
-            const listItem = document.createElement('li');
-            listItem.textContent = `${symbol} - ${name} (${region})`;
+            const listItem = document.createElement('a')
+            listItem.className='list-group-item list-group-item-action';
+            listItem.href = `/stock/symbol/${symbol}`;
+            listItem.textContent = `${symbol}  -  ${name}  - [${region}]`;
             searchResults.appendChild(listItem);
         });
     } catch (error) {
