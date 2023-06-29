@@ -15,8 +15,7 @@ function handleSearchInput() {
 async function searchSymbol() {
     const searchInput = document.getElementById('searchInput');
     const searchText = searchInput.value.trim();
-
-    const url = `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${searchText}&apikey=demo`;
+    const url = `/api/searchSymbol/${searchText}`; // URL to Spring Boot rest controller
 
     try {
         const response = await fetch(url);
