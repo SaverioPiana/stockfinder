@@ -12,8 +12,8 @@
         window.onload = function () {
             var dps1 = [], dps2= [];
             var stockChart = new CanvasJS.StockChart("chartContainer",{
-                colorSet: "blueShades",
                 theme: "light2",
+                animationEnabled: true,
                 rangeSelector:{
                     enabled: false
                 },
@@ -43,6 +43,7 @@
                         prefix: "$"
                     },
                     data: [{
+                        cursor: "pointer",
                         type: "candlestick",
                         risingColor: "green",
                         fallingColor: "red",
@@ -53,13 +54,15 @@
                 }],
                 navigator: {
                     data: [{
+                        animationEnabled: true,
                         dataPoints: dps2
                     }],
                 }
             });
             $.getJSON("/stock/[[${stock.getId}]]/json", function(data) {
                 for(var i = 0; i < data.length; i++){
-                    dps1.push({x: new Date(data[i].timeStamp), y: [Number(data[i].open), Number(data[i].high), Number(data[i].low), Number(data[i].close)]});
+                    dps1.push({x: new Date(data[i].timeStamp), y: [Number(data[i].open), Number(data[i].high), Number(data[i].low), Number(data[i].close)],
+                        color: (Number(data[i].open) > Number(data[i].close)) ? "red" : "green"});
                     dps2.push({x: new Date(data[i].timeStamp), y: Number(data[i].close)});
                 }
                 stockChart.render();
@@ -68,6 +71,9 @@
     </script>
 </head>
 <body>
-<div id="chartContainer" style="height: 450px; width: 100%;"></div>
+<div th:replace="/fragments/header :: header"></div>
+<div class="container d-flex flex-column">
+    <div id="chartContainer" class="bor" style="height: 450px; width: 100%;"></div>
+</div>
 </body>
 </html>
