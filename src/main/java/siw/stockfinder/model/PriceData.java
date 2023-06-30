@@ -20,7 +20,27 @@ public class PriceData {
     @NotNull
     private float open;
     @NotNull
+    private float high;
+    @NotNull
+    private float low;
+    @NotNull
     private float close;
+
+    public float getHigh() {
+        return high;
+    }
+
+    public void setHigh(float high) {
+        this.high = high;
+    }
+
+    public float getLow() {
+        return low;
+    }
+
+    public void setLow(float low) {
+        this.low = low;
+    }
 
     public float getOpen() {
         return open;

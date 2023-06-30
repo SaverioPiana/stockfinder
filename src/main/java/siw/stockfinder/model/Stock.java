@@ -34,8 +34,16 @@ public class Stock {
         float variation = 0;
         if(priceHistory.size()>0){
             PriceData lastPrice = priceHistory.get(priceHistory.lastKey());
-            PriceData firstPrice = priceHistory.get(priceHistory.lastKey().minus(numberOfDays, java.time.temporal.ChronoUnit.DAYS));
-            if(firstPrice==null) firstPrice = priceHistory.get(priceHistory.firstKey());
+            LocalDateTime firstDate = priceHistory.lastKey().minus(numberOfDays, java.time.temporal.ChronoUnit.DAYS);
+            PriceData firstPrice = priceHistory.get(firstDate);
+            //if firstPrice is null, try -10 minutes
+            if(firstPrice==null){
+                firstPrice = priceHistory.get(firstDate.minus(10, java.time.temporal.ChronoUnit.MINUTES));
+            }
+            //if it is still null take the first price
+            if(firstPrice==null){
+                firstPrice = priceHistory.get(priceHistory.firstKey());
+            }
             variation = (lastPrice.getClose()-firstPrice.getOpen())/firstPrice.getOpen()*100;
         }
         return variation;

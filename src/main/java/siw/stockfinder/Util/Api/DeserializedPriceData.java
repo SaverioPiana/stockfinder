@@ -31,6 +31,8 @@ public class DeserializedPriceData {
             PriceData priceData = new PriceData();
             priceData.setOpen(entry.getValue().getOpen());
             priceData.setClose(entry.getValue().getClose());
+            priceData.setHigh(entry.getValue().getHigh());
+            priceData.setLow(entry.getValue().getLow());
             priceData.setTimeStamp(LocalDateTime.parse(entry.getKey(), formatter));
             priceDataSortedMap.put(priceData.getTimeStamp(), priceData);
         }

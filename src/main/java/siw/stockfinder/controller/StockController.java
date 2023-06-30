@@ -2,6 +2,7 @@ package siw.stockfinder.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,8 @@ import siw.stockfinder.model.Stock;
 import siw.stockfinder.service.ApiService;
 import siw.stockfinder.service.StockService;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Controller
@@ -28,15 +31,27 @@ public class StockController {
         model.addAttribute("stocks",stockService.findAll());
         return "stocks";
     }
+    //for the chart
+    @GetMapping("/stock/{id}/json")
+    public ResponseEntity<List<PriceData>> getStock(@PathVariable("id") Long id) {
+        Stock stock = stockService.findById(id);
+        if (stock != null) {
+            Collection<PriceData> values = stock.getPriceHistory().values();
+            List<PriceData> priceDataList = new ArrayList<>(values);
+            return ResponseEntity.ok(priceDataList);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
     @GetMapping("/stock/{id}")
     public String showStock(@PathVariable("id") Long id, Model model){
-        model.addAttribute(stockService.findById(id));
+        model.addAttribute("stock",stockService.findById(id));
         return "stock";
     }
     //for url search
     @GetMapping("/stock/symbol/{symbol}")
     public String showStock(@PathVariable("symbol") String symbol, Model model){
-        model.addAttribute(stockService.findBySymbol(symbol));
+        model.addAttribute("stock",stockService.findBySymbol(symbol));
         return "stock";
     }
 

@@ -12,11 +12,11 @@ import java.util.SortedMap;
 @Service
 public class ApiService {
     @Value("${alphavantage.apiKey}")
-    private String apiKey;
+    private String stockApiKey;
     private final String timeSeriesIntraday = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=";
     public SortedMap<LocalDateTime, PriceData> fetchPriceData(String symbol) {
         RestTemplate restTemplate = new RestTemplate();
-        String url = timeSeriesIntraday + symbol + "&interval=5min&apikey=" + apiKey;
+        String url = timeSeriesIntraday + symbol + "&interval=5min&apikey=" + stockApiKey;
         DeserializedPriceData response = restTemplate.getForObject(url, DeserializedPriceData.class);
         return response.toPriceDataSortedMap();
     }

@@ -2,9 +2,72 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.canvasjs.com/canvasjs.stock.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     <title>Title</title>
+    <script type="text/javascript">
+        window.onload = function () {
+            var dps1 = [], dps2= [];
+            var stockChart = new CanvasJS.StockChart("chartContainer",{
+                colorSet: "blueShades",
+                theme: "light2",
+                rangeSelector:{
+                    enabled: false
+                },
+                exportEnabled: false,
+                title:{
+                    text:"[[${stock.getSymbol}]]"
+                },
+                subtitles: [{
+                    text:"Price USD"
+                }],
+                charts: [{
+                    toolTip:{
+                        cornerRadius: 5,
+                        borderColor: "green",
+                        borderWidth: 4
+                    },
+                    axisX: {
+                        crosshair: {
+                            enabled: false,
+                            snapToDataPoint: true
+                        },
+                        labelFormatter: function (e) {
+                            return CanvasJS.formatDate( e.value, "D MMMM YYYY hh:mm TT");
+                        },
+                    },
+                    axisY: {
+                        prefix: "$"
+                    },
+                    data: [{
+                        type: "candlestick",
+                        risingColor: "green",
+                        fallingColor: "red",
+                        yValueFormatString: "$#,###.##",
+                        xValueFormatString: "D MMMM YYYY hh:mm TT",
+                        dataPoints : dps1
+                    }]
+                }],
+                navigator: {
+                    data: [{
+                        dataPoints: dps2
+                    }],
+                }
+            });
+            $.getJSON("/stock/[[${stock.getId}]]/json", function(data) {
+                for(var i = 0; i < data.length; i++){
+                    dps1.push({x: new Date(data[i].timeStamp), y: [Number(data[i].open), Number(data[i].high), Number(data[i].low), Number(data[i].close)]});
+                    dps2.push({x: new Date(data[i].timeStamp), y: Number(data[i].close)});
+                }
+                stockChart.render();
+            });
+        }
+    </script>
 </head>
 <body>
-
+<div id="chartContainer" style="height: 450px; width: 100%;"></div>
 </body>
 </html>
