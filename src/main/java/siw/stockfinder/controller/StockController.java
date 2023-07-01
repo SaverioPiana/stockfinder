@@ -1,11 +1,14 @@
 package siw.stockfinder.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import siw.stockfinder.Util.Api.DeserializedPriceData;
@@ -13,6 +16,7 @@ import siw.stockfinder.model.PriceData;
 import siw.stockfinder.model.Stock;
 import siw.stockfinder.service.ApiService;
 import siw.stockfinder.service.StockService;
+import siw.stockfinder.validator.StockValidator;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,6 +28,8 @@ public class StockController {
     StockService stockService;
     @Autowired
     ApiService apiService;
+    @Autowired
+    StockValidator stockValidator;
 
 
     @GetMapping("/stock")
@@ -75,15 +81,22 @@ public class StockController {
     }
     @GetMapping("/admin/formNewStock")
     public String showFormNewStock(Model model){
-        model.addAttribute(new Stock());
+        model.addAttribute("stock" ,new Stock());
         return "admin/formNewStock";
     }
-    //to do: add validation
+
     @PostMapping("/admin/stock")
-    public String saveStock(Stock stock){
-        if(!stockService.existsBySymbol(stock.getSymbol())){
-           stockService.addNewStock(stock);
+    public String saveStock(@Valid @ModelAttribute("stock") Stock stock, BindingResult bindingResult, Model model){
+        this.stockValidator.validate(stock, bindingResult);
+        if(!bindingResult.hasErrors()){
+            this.stockService.addNewStock(stock);
+            model.addAttribute("stock", stock);
+            return "redirect:/admin/stock";
+
+        }else{
+            model.addAttribute("messaggioErrore", "Questa stock è gia nel sistema, inseriscine una nuova)");
+            return "redirect:/admin/formNewStock";
         }
-        return "redirect:/admin/stock";
+
     }
 }
