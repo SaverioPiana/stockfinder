@@ -2,7 +2,6 @@ package siw.stockfinder.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,9 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import siw.stockfinder.Util.Api.DeserializedPriceData;
 import siw.stockfinder.model.PriceData;
 import siw.stockfinder.model.Stock;
+import siw.stockfinder.model.User;
 import siw.stockfinder.service.ApiService;
 import siw.stockfinder.service.StockService;
 import siw.stockfinder.validator.StockValidator;
@@ -98,5 +97,12 @@ public class StockController {
             return "redirect:/admin/formNewStock";
         }
 
+    }
+
+    //DA AGGIUSTARE PER AVERE USER CORRENTE
+    @GetMapping("/profile")
+    public String showProfile(@ModelAttribute("user") User user, Model model){
+        model.addAttribute("user", user);
+        return "registered/profile";
     }
 }
