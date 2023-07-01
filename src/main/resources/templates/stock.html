@@ -126,10 +126,10 @@
 <div th:replace="/fragments/header :: header"></div>
 <div class="my-3 container-xxl">
     <div class="row">
-        <div class="col-8 border border-2 rounded-5 p-3 mx-auto shadow">
+        <div class="col-sm-6 col-md-8 border border-2 rounded-5 p-3 mx-auto shadow">
             <div id="chartContainer" style="height: 450px; width: 100%;"></div>
         </div>
-        <div class="col-3 d-flex flex-column border border-2 rounded-5 p-3 mx-auto shadow">
+        <div class="col-sm-5 col-md-3 d-flex flex-column border border-2 rounded-5 p-3 mx-auto shadow">
             <div class="mx-auto text-lg fw-bold"> Current Price:
                 <span class="text-success fw-semibold" th:text="${stock.getLastPrice().getClose()+'$'}">50$</span>
             </div>
@@ -149,7 +149,13 @@
                         <span class="input-group-text" >Price</span>
                         <input type="number" class="form-control" id="priceInput" required min="0" step="any">
                     </div>
+                </div>
             </div>
+        </div>
+    </div>
+    <div class="row p-3">
+        <div class="col-12 d-flex flex-column border border-2 rounded-4 shadow">
+            <div class="text flex-grow-1">AAA</div>
         </div>
     </div>
 </div>
