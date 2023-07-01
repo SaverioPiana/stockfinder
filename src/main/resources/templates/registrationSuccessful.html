@@ -13,31 +13,25 @@
 </head>
 
 <body>
-	<header>
-		<div th:if="${userDetails}">
-			<span th:text="${userDetails.username}"></span>
-			<a href="/logout">Logout</a>
+<div class="container">
+	<div class="row justify-content-center mt-5">
+		<div class="col-md-6">
+			<h2 class="text-center mb-4">Congratulazioni</h2>
+			<div class="alert alert-success" role="alert">
+				<h4 class="alert-heading">Registrazione avvenuta con successo</h4>
+				<p>Grazie per esserti registrato. Ecco i dettagli della tua registrazione: </p>
+				<ul>
+					<li><strong>Username:</strong> <span id="username" th:text="${credentials.username}"></span></li>
+					<li><strong>First Name:</strong> <span id="firstName" th:text="${user.name}"></span></li>
+					<li><strong>Last Name:</strong> <span id="lastName" th:text="${user.surname}"></span></li>
+					<li><strong>Email:</strong> <span id="email" th:text="${user.email}"></span></li>
+				</ul>
+			</div>
 		</div>
-		<div th:unless="${user}">
-			<a href="/login">Login</a>
-		</div>
-	</header>
-
-	<div>
-		<a href="/"><img src="/static/logo-siw.png" width="50%"/></a>
 	</div>
-	<h1>Congratulazioni ti sei registrato!</h1>
-	<div>
-		<span>Nome: </span>
-		<span th:text="${user.name}"></span>
-	</div>
-	<div>
-		<span>Cognome: </span>
-		<span th:text="${user.surname}"></span>
-	</div>
-	<div>
-		<span>Email: </span>
-		<span th:text="${user.email}"></span>
-	</div>
+</div>
+<div class="text-center mt-3">
+	<p>Bene ora puoi effettuare il  <a th:href="@{/login}">Login</a></p>
+</div>
 </body>
 </html>

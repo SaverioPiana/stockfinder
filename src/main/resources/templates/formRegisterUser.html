@@ -16,19 +16,7 @@
 </head>
 
 <body>
-	<header>
-		<div th:if="${userDetails}">
-			<span th:text="${userDetails.username}"></span>
-			<a href="/logout">Logout</a>
-		</div>
-		<div th:unless="${user}">
-			<a href="/login">Login</a>
-		</div>
-	</header>
-
-	<div>
-		<a href="/"><img src="/static/logo-siw.png" width="50%" /></a>
-	</div>
+	<!--
 	<h1>Registrazione nuovo utente</h1>
 	<form th:action="@{/register}" method="POST">
 		<div>
@@ -70,6 +58,43 @@
 			<button type="submit">Registra</button>
 		</div>
 	</form>
+	-->
+	<div class="container">
+		<div class="row justify-content-center mt-5">
+			<div class="col-md-6">
+				<h2 class="text-center mb-4">Sign up!</h2>
+				<form th:action="@{/register}" method="POST">
+					<div class="mb-3">
+						<label for="username" class="form-label">Username</label>
+						<input type="text" class="form-control" id="username" placeholder="Enter your username" required th:field="${credentials.username}">
+						<span th:if="${#fields.hasErrors('credentials.username')}" th:errors="${credentials.username}" th:style="'color:red'"> </span>
+					</div>
+					<div class="mb-3">
+						<label for="name" class="form-label">First Name</label>
+						<input type="text" class="form-control" id="name" placeholder="Enter your first name" required th:field="${user.name}">
+						<span th:if="${#fields.hasErrors('user.name')}" th:errors="${user.name}" th:style="'color:red'"> </span>
+					</div>
+					<div class="mb-3">
+						<label for="surname" class="form-label">Last Name</label>
+						<input type="text" class="form-control" id="surname" placeholder="Enter your last name" required th:field="${user.surname}">
+						<span th:if="${#fields.hasErrors('user.surname')}" th:errors="${user.surname}" th:style="'color:red'"> </span>
+					</div>
+					<div class="mb-3">
+						<label for="email" class="form-label">Email</label>
+						<input type="email" class="form-control" id="email" placeholder="Enter your email" required th:field="${user.email}">
+						<span th:if="${#fields.hasErrors('user.email')}" th:errors="${user.email}" th:style="'color:red'"> </span>
+					</div>
+					<div class="mb-3">
+						<label for="password" class="form-label">Password</label>
+						<input type="password" class="form-control" id="password" placeholder="Enter your password" required th:field="${credentials.password}">
+						<span th:if="${#fields.hasErrors('credentials.password')}" th:errors="${credentials.password}" th:style="'color:red'"> </span>
+					</div>
+					<button type="submit" class="btn btn-primary">Register</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
 </body>
 
 </html>
