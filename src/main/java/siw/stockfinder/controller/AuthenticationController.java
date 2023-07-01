@@ -19,13 +19,18 @@ import siw.stockfinder.model.Credentials;
 import siw.stockfinder.model.User;
 import siw.stockfinder.service.CredentialsService;
 import siw.stockfinder.service.UserService;
+import siw.stockfinder.validator.CredentialsValidator;
+import siw.stockfinder.validator.UserValidator;
 
 @Controller
 public class AuthenticationController {
 
     @Autowired
+    private CredentialsValidator credentialsValidator;
+    @Autowired
     private CredentialsService credentialsService;
-
+    @Autowired
+    private UserValidator userValidator;
     @Autowired
     private UserService userService;
 
@@ -74,7 +79,10 @@ public class AuthenticationController {
                                @ModelAttribute("credentials") Credentials credentials,
                                BindingResult credentialsBindingResult,
                                Model model) {
-
+        //valida se ci sono untenti con stesso name surname e email
+        userValidator.validate(user, userBindingResult);
+        //valida se ci sono username uguali
+        credentialsValidator.validate(credentials, credentialsBindingResult);
         // se user e credential hanno entrambi contenuti validi, memorizza User e the Credentials nel DB
         if(!userBindingResult.hasErrors() && !credentialsBindingResult.hasErrors()) {
             userService.saveUser(user);
