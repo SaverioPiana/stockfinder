@@ -124,8 +124,34 @@
 </head>
 <body>
 <div th:replace="/fragments/header :: header"></div>
-<div class="p-3 container d-flex flex-column border border-2 rounded-5">
-    <div id="chartContainer" class="bor" style="height: 450px; width: 100%;"></div>
+<div class="my-3 container-xxl">
+    <div class="row">
+        <div class="col-8 border border-2 rounded-5 p-3 mx-auto shadow">
+            <div id="chartContainer" style="height: 450px; width: 100%;"></div>
+        </div>
+        <div class="col-3 d-flex flex-column border border-2 rounded-5 p-3 mx-auto shadow">
+            <div class="mx-auto text-lg fw-bold"> Current Price:
+                <span class="text-success fw-semibold" th:text="${stock.getLastPrice().getClose()+'$'}">50$</span>
+            </div>
+            <div class="mx-auto text-lg fw-bold"> Last Day Variation:
+                <span class="text-success fw-semibold" th:text="${stock.getDaysVariation(1)+'%'}">5%</span>
+            </div>
+            <div class="container-fluid border border-2 rounded-4 my-auto">
+                <div class="row p-1">
+                    <div class="text-center fw-semibold">Order</div>
+                    <label for="quantityInput" class="form-label"></label>
+                    <form action=""></form>
+                    <div class="input-group my-1">
+                        <span class="input-group-text" >QTY</span>
+                        <input type="number" class="form-control" id="quantityInput" required min="0" step="any">
+                    </div>
+                    <div class="input-group my-1">
+                        <span class="input-group-text" >Price</span>
+                        <input type="number" class="form-control" id="priceInput" required min="0" step="any">
+                    </div>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
