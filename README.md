@@ -2,6 +2,9 @@
 
 Progetto personale SIW 2023 Luca Foresti, Saverio Piana
 
+# Setup :
+- Creare il file "application-dev.properties" nella cartella "resources" e aggiungere "alphavantage.apiKey={apikey}"
+- La chiave api si puo reperire qui https://www.alphavantage.co/support/#api-key
 # Esperienze Utente :
 
 ### UTENTE NON REGISTRATO:
