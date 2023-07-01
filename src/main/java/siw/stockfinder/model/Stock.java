@@ -23,10 +23,10 @@ public class Stock {
     @OneToMany(cascade = CascadeType.ALL)
     @MapKey(name = "timeStamp")
     private SortedMap<LocalDateTime, PriceData> priceHistory;
-    public float getLastPrice(){
-        float lastPrice = 0;
+    public PriceData getLastPrice(){
+        PriceData lastPrice = new PriceData();
         if(priceHistory.size()>0){
-            lastPrice = priceHistory.get(priceHistory.lastKey()).getClose();
+            lastPrice = priceHistory.get(priceHistory.lastKey());
         }
         return lastPrice;
     }

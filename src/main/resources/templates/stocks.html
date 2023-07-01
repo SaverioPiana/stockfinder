@@ -34,7 +34,7 @@
         <tr class="clickable-row" th:each="stock:${stocks}" th:data-href="@{'/stock/'+${stock.id}}">
             <th scope="row">1</th>
             <td th:text="${stock.getSymbol()}"></td>
-            <td th:text="${stock.getLastPrice()}+'$'">lastPrice</td>
+            <td th:text="${stock.getLastPrice().getClose()}+'$'">lastPrice</td>
             <td th:text="${stock.getDaysVariation(1)}+'%'">lastDayVariation</td>
             <td th:text="${stock.getDaysVariation(7)}+'%'">lastWeekVariation</td>
             <td>40.000</td>
