@@ -23,6 +23,16 @@ public class Stock {
     @OneToMany(cascade = CascadeType.ALL)
     @MapKey(name = "timeStamp")
     private SortedMap<LocalDateTime, PriceData> priceHistory;
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public PriceData getLastPrice(){
         PriceData lastPrice = new PriceData();
         if(priceHistory.size()>0){
