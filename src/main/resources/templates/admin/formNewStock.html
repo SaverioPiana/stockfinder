@@ -10,28 +10,18 @@
 <body>
 <div th:replace="/fragments/header :: header"></div>
 
-<form th:action="@{/admin/stock}" method="POST" >
-    <div class="input-container">
-        <input required id="input" type="text" th:field="${stock.symbol}">
-        <input required type="text" th:field="${stock.description}">
-        <label class="label" for="input">Enter Text</label>
-        <div class="underline"></div>
-        <div class="sideline"></div>
-        <div class="upperline"></div>
-        <div class="line"></div>
-    </div>
-    <div>
-        <button type="submit">ADD</button>
-    </div>
-</form>
-<!--
-<form th:action="@{/admin/stock}" method="POST" >
-    <label for="symbol">Symbol</label>
-    <input type="text" name="name" id="symbol" th:field="${stock.symbol}" required>
-    <div>
-        <span><button type="submit">Conferma</button></span>
-    </div>
-</form>
--->
+
+<div class="container">
+    <h2 class="my-2">Aggiungi una stock al sistema</h2>
+
+    <form th:action="@{/admin/stock}" method="POST">
+        <div class="form-group">
+            <label for="stockInput">Simbolo della stock:</label>
+            <input required type="text" th:field="${stock.symbol}" class="form-control my-2" id="stockInput" name="stock" style="max-width: 300px">
+        </div>
+        <button type="submit" class="btn btn-primary">Aggiungi</button>
+    </form>
+</div>
+
 </body>
 </html>

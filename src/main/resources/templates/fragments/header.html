@@ -8,14 +8,7 @@
     <link rel="stylesheet" href="/static/css/default.css"/>
 </head>
 <body>
-<!--
-    <header class="header ">
-        <img src="/static/images/candlestick_icon.png" alt="icon">
-        <span>
-            <label>Username</label>
-        </span>
-    </header>
--->
+
     <nav th:fragment="header" class="navbar navbar-expand-sm navbar-light " style="background-color: lightgreen" >
         <div class="container" >
 
@@ -47,7 +40,7 @@
                         <a class="nav-link active" aria-current="page" href="/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/stock">Stocks</a>
+                        <a class="nav-link" href="/stocks">Stocks</a>
                     </li>
                     <li class="nav-item" th:if="${userAuthDetails}">
                         <a class="nav-link" href="/profile">Profile</a>
