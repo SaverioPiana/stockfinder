@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import siw.stockfinder.model.Order;
 import siw.stockfinder.model.PriceData;
 import siw.stockfinder.model.Stock;
 import siw.stockfinder.model.User;
@@ -51,12 +52,14 @@ public class StockController {
     @GetMapping("/stock/{id}")
     public String showStock(@PathVariable("id") Long id, Model model){
         model.addAttribute("stock",stockService.findById(id));
+        model.addAttribute("order", new Order());
         return "stock";
     }
     //for url search
     @GetMapping("/stock/symbol/{symbol}")
     public String showStock(@PathVariable("symbol") String symbol, Model model){
         model.addAttribute("stock",stockService.findBySymbol(symbol));
+        model.addAttribute("order", new Order());
         return "stock";
     }
 
