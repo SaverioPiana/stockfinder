@@ -19,10 +19,20 @@ public class User {
     @NotBlank
     private String email;
     private String picFilename;
+    @OneToMany(mappedBy = "user")
+    private Set<Order> orders;
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Stock> StarredStocks;
     @OneToMany(mappedBy = "author")
     private Set<Review> reviews;
+
+    public Set<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Set<Order> orders) {
+        this.orders = orders;
+    }
 
     @Override
     public boolean equals(Object o) {
