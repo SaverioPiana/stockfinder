@@ -11,13 +11,6 @@
 </head>
 <body>
 <script>
-    jQuery(document).ready(function($) {
-        $(".clickable-row").click(function () {
-            window.location.href = $(this).data("href");
-        });
-    });
-</script>
-<script>
     $(document).ready(function() {
         // Get the table rows and convert them to an array
         var tableBody = document.querySelector("#stock-table tbody");
@@ -37,6 +30,10 @@
         rows.forEach(function(row, index) {
             row.querySelector(".row-number").textContent = (index + 1).toString();
             $("#stock-table tbody").append(row);
+        });
+        //make the rows clickable
+        $(".clickable-row").click(function () {
+            window.location.href = $(this).data("href");
         });
     });
 </script>
