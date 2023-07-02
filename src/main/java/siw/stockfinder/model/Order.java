@@ -2,6 +2,8 @@ package siw.stockfinder.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity(name = "orders")
 public class Order {
     @Id
@@ -14,6 +16,16 @@ public class Order {
     private User user;
     private float quantity;
     private float price;
+
+    private LocalDateTime timeStamp;
+
+    public LocalDateTime getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(LocalDateTime dateTime) {
+        this.timeStamp = dateTime;
+    }
 
     public User getUser() {
         return user;

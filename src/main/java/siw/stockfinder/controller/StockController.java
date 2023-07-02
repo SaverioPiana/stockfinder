@@ -43,7 +43,7 @@ public class StockController {
         model.addAttribute("stocks",stockService.findAll());
         return "stocks";
     }
-    //for the chart
+    //for the stock chart
     @GetMapping("/stock/{id}/json")
     public ResponseEntity<List<PriceData>> getStock(@PathVariable("id") Long id) {
         Stock stock = stockService.findById(id);

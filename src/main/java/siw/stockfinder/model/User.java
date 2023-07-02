@@ -21,8 +21,10 @@ public class User {
     private String picFilename;
     @OneToMany(mappedBy = "user")
     private Set<Order> orders;
+    private float totalGeneratedFunds;
+    private float currentFunds;
     @ManyToMany(cascade = CascadeType.ALL)
-    private Set<Stock> StarredStocks;
+    private Set<Stock> starredStocks;
     @OneToMany(mappedBy = "author")
     private Set<Review> reviews;
 
@@ -31,6 +33,29 @@ public class User {
         orders.removeIf(order -> !order.getStock().equals(stock));
         return orders;
     }
+
+    public float getTotalGeneratedFunds() {
+        return totalGeneratedFunds;
+    }
+
+    public void setTotalGeneratedFunds(float totalGeneratedFunds) {
+        this.totalGeneratedFunds = totalGeneratedFunds;
+    }
+
+    public float getCurrentFunds() {
+        return currentFunds;
+    }
+    public void removeFunds(float funds){
+        this.currentFunds -= funds;
+    }
+    public void addFunds(float funds){
+        this.currentFunds += funds;
+    }
+
+    public void setCurrentFunds(float currentFunds) {
+        this.currentFunds = currentFunds;
+    }
+
     public Set<Order> getOrders() {
         return orders;
     }
@@ -58,11 +83,11 @@ public class User {
     }
 
     public Set<Stock> getStarredStocks() {
-        return StarredStocks;
+        return starredStocks;
     }
 
     public void setStarredStocks(Set<Stock> starredStocks) {
-        StarredStocks = starredStocks;
+        this.starredStocks = starredStocks;
     }
 
     public Set<Review> getReviews() {

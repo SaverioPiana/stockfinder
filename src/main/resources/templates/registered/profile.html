@@ -2,9 +2,63 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://cdn.canvasjs.com/canvasjs.stock.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+  <!--    only for code completion-->
+  <link rel="stylesheet" href="/css/http_cdn.jsdelivr.net_npm_bootstrap@5.3.0_dist_css_bootstrap.css">
+  <link rel="stylesheet" href="/css/base.css">
   <title>User Profile</title>
+  <script>
+    window.onload = function () {
+      var dps1 = []; // dataPoints
+      var totalGeneratedFunds = Number("[[${globalUser.totalGeneratedFunds}]]");
+      var currentFunds = Number("[[${globalUser.currentFunds}]]");
+      var chart = new CanvasJS.Chart("chartContainer", {
+        theme: "light2", // "light1", "light2", "dark1", "dark2"
+        animationEnabled: true,
+        axisX: {
+          interval:12,
+          intervalType: "hour",
+          valueFormatString: "hh:mm DD/MM/YYYY",
+          labelAngle: 0
+        },
+        axisY:{
+          title: "Value (in USD)",
+          includeZero: true,
+          valueFormatString: "$#0"
+        },
+        data: [{
+          type: "line",
+          markerSize: 12,
+          xValueFormatString: "D MMMM YYYY hh:mm TT ",
+          yValueFormatString: "$###.#",
+          dataPoints: dps1
+        }]
+      });
+      $.getJSON("/user/[[${globalUser.id}]]/orders/json", function(data) {
+        var firstTimestamp = new Date(data[0].timeStamp).getTime();
+        dps1.push({
+          x: new Date(firstTimestamp-600000),  // 10 minuti prima del primo ordine
+          y: Number(totalGeneratedFunds),
+          indexLabel: "Initial funds",
+          markerColor: "yellow"
+        });
+        for (var i = 0; i < data.length; i++) {
+          totalGeneratedFunds = String(data[i].type) === 'sell' ? totalGeneratedFunds+Number(data[i].price) : totalGeneratedFunds-Number(data[i].price);
+          dps1.push({
+            x: new Date(data[i].timeStamp),
+            y: Number(totalGeneratedFunds),
+            indexLabel: String(data[i].type),
+            markerColor: String(data[i].type) === 'sell' ? "red" : "green"
+          });
+        }
+        chart.render();
+      });
+    }
+  </script>
 </head>
 <body>
 <div th:replace="/fragments/header :: header"></div>
@@ -33,6 +87,7 @@
 
       <div class="mt-5">
         <h4 class="text-center">Attivita e statistiche: </h4>
+        <div id="chartContainer" style="height: 370px; width: 100%;"></div>
         <!-- TO DO: QUI CI SI PUO METTERE UN GRAFICO CON QUALCHE STATISTICA UTENTE -->
 
       </div>
