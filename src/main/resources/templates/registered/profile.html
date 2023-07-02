@@ -26,7 +26,7 @@
           labelAngle: 0
         },
         axisY:{
-          title: "Value (in USD)",
+          title: "Funds (in USD)",
           includeZero: true,
           valueFormatString: "$#0"
         },
@@ -65,11 +65,11 @@
 
 <div class="container">
   <div class="row justify-content-center mt-5">
-    <div class="col-md-8">
-      <h2 class="text-start mb-4">Profilo utente</h2>
+    <div class="col-md-8 border border-2 rounded-4 p-2">
+      <h2 class="text-start mb-4 mx-2">Profilo utente</h2>
       <div class="row">
         <div class="col-md-6">
-          <form id="uploadForm"  th:action="@{/registered/saveProfileImage}" method="POST" enctype="multipart/form-data" style="max-width: 200px">
+          <form id="uploadForm" class="mx-2" th:action="@{/registered/saveProfileImage}" method="POST" enctype="multipart/form-data" style="max-width: 200px">
             <label class="cursor-pointer text-light" for="modifyImage">
               <img class="img-fluid my-2 rounded-4 border border-2" th:src= "${globalUser.getPicPath()}"/>
             </label>
@@ -87,6 +87,30 @@
 
       <div class="mt-5">
         <h4 class="text-center">Attivita e statistiche: </h4>
+        <div class="my-3 p-2 container border border-3 rounded-3">
+          <table class="table table-striped table-hover my-0">
+            <thead>
+            <tr>
+              <th scope="col">Action</th>
+              <th scope="col">Stock</th>
+              <th scope="col">Buy/Sell Price</th>
+              <th scope="col">Date</th>
+            </tr>
+            </thead>
+            <tbody class="table-group-divider">
+            <tr class="clickable-row" th:each="order:${globalUser.getOrders()}"
+                th:data-href="@{'/stock/'+${order.stock.id}}">
+              <td class="pe-4">
+                <div th:class="${order.type == 'buy'} ? 'border border-2 border-success text-success rounded-3 shadow text-center fw-semibold' :
+                            'border border-2 border-danger text-danger rounded-3 shadow text-center fw-semibold'"
+                     th:text="${order.type}">Sell</div>
+              </td>
+              <td th:text="${order.stock.symbol}">SYB</td>
+              <td th:text="${order.price}+'$'">Buy/Sell Price</td>
+              <td th:text="${order.getReadableTimeStamp()}">timeStamp</td>
+            </tr>
+          </table>
+        </div>
         <div id="chartContainer" style="height: 370px; width: 100%;"></div>
         <!-- TO DO: QUI CI SI PUO METTERE UN GRAFICO CON QUALCHE STATISTICA UTENTE -->
 

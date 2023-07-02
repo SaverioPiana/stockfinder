@@ -3,6 +3,7 @@ package siw.stockfinder.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity(name = "orders")
 public class Order {
@@ -19,6 +20,15 @@ public class Order {
 
     private LocalDateTime timeStamp;
 
+    public String getReadableTimeStamp(){
+        return timeStamp.format(DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss"));
+    }
+    public float getVariation(){
+        float variation = 0;
+        PriceData lastPrice = stock.getLastPrice();
+        float firstPrice = price/quantity;
+        return (lastPrice.getClose()-firstPrice)/firstPrice*100;
+    }
     public LocalDateTime getTimeStamp() {
         return timeStamp;
     }
