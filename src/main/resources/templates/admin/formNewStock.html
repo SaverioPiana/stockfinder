@@ -13,6 +13,7 @@
 <form th:action="@{/admin/stock}" method="POST" >
     <div class="input-container">
         <input required id="input" type="text" th:field="${stock.symbol}">
+        <input required type="text" th:field="${stock.description}">
         <label class="label" for="input">Enter Text</label>
         <div class="underline"></div>
         <div class="sideline"></div>

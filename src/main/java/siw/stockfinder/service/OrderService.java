@@ -2,7 +2,6 @@ package siw.stockfinder.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import siw.stockfinder.Util.Order.OrderType;
 import siw.stockfinder.model.Order;
 import siw.stockfinder.model.Stock;
 import siw.stockfinder.model.User;
@@ -17,16 +16,14 @@ public class OrderService {
         orderRepository.save(order);
     }
 
-    public void buyStock(Stock stock, User user) {
-        Order order = new Order();
-        order.setType(OrderType.BUY);
+    public void buyStock(Order order,Stock stock, User user) {
+        order.setType("buy");
         order.setStock(stock);
         order.setUser(user);
         orderRepository.save(order);
     }
-    public void sellStock(Stock stock, User user) {
-        Order order = new Order();
-        order.setType(OrderType.SELL);
+    public void sellStock(Order order,Stock stock, User user) {
+        order.setType("sell");
         order.setStock(stock);
         order.setUser(user);
         orderRepository.save(order);

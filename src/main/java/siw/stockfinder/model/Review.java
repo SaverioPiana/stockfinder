@@ -17,10 +17,6 @@ public class Review {
     private Long id;
     @NotBlank
     private String title;
-    @NotNull
-    @Max(100)
-    @Min(1)
-    private Integer score;
     private LocalDateTime creationDateTime;
     private String content;
     @ManyToOne
@@ -47,14 +43,6 @@ public class Review {
     @Override
     public int hashCode() {
         return Objects.hash(title, creationDateTime, author);
-    }
-
-    public Integer getScore() {
-        return score;
-    }
-
-    public void setScore(Integer score) {
-        this.score = score;
     }
 
     public Stock getReviewedStock() {

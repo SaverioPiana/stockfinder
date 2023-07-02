@@ -1,16 +1,13 @@
 package siw.stockfinder.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import siw.stockfinder.Util.Order.OrderType;
 
 @Entity(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @NotNull
-    private OrderType type;
+    private String type;
     @OneToOne
     private Stock stock;
     @ManyToOne(cascade = CascadeType.ALL)
@@ -34,11 +31,11 @@ public class Order {
         this.id = id;
     }
 
-    public OrderType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(OrderType type) {
+    public void setType(String type) {
         this.type = type;
     }
 

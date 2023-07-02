@@ -1,5 +1,6 @@
 package siw.stockfinder.controller;
 
+import ch.qos.logback.core.model.Model;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,7 +23,7 @@ public class OrderController {
     @Autowired
     UserService userService;
 
-    @PostMapping("/order/buy/{stockId}")
+    @PostMapping("/registered/order/buy/{stockId}")
     public String buyStock(@PathVariable("stockId") Long stockId, @Valid @ModelAttribute("order") Order order, BindingResult bindingResult) {
         Stock stock = stockService.findById(stockId);
         if(stock == null) {
@@ -30,11 +31,11 @@ public class OrderController {
         }
         //to add validation (if user balance is less than the order price*quantity)
         if(!bindingResult.hasErrors()) {
-            orderService.buyStock(stock, userService.getCurrentUser());
+            orderService.buyStock(order, stock, userService.getCurrentUser());
         }
         return "redirect:/stock/" + stockId;
     }
-    @PostMapping("/order/sell/{stockId}")
+    @PostMapping("/registered/order/sell/{stockId}")
     public String sellStock(@PathVariable("stockId") Long stockId, @Valid @ModelAttribute("order") Order order, BindingResult bindingResult) {
         Stock stock = stockService.findById(stockId);
         if(stock == null) {
@@ -42,7 +43,7 @@ public class OrderController {
         }
         //to add validation (if user stock quantity is less than the order quantity)
         if(!bindingResult.hasErrors()) {
-            orderService.sellStock(stock, userService.getCurrentUser());
+            orderService.sellStock(order, stock, userService.getCurrentUser());
         }
         return "redirect:/stock/" + stockId;
     }
