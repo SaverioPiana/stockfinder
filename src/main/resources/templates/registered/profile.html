@@ -2,28 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
   <title>User Profile</title>
-  <style>
-    .profile-img {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-    }
-  </style>
 </head>
 <body>
+<div th:replace="/fragments/header :: header"></div>
+
 <div class="container">
   <div class="row justify-content-center mt-5">
     <div class="col-md-8">
       <h2 class="text-start mb-4">Profilo utente</h2>
       <div class="row">
-        <div class="col-md-4">
-          <div class="text-center">
-            <img src="profile-image.jpg" alt="Profile Image" class="profile-img">
-          </div>
+        <div class="col-md-6">
+          <form id="uploadForm"  th:action="@{/registered/saveProfileImage}" method="POST" enctype="multipart/form-data" style="max-width: 200px">
+            <label class="cursor-pointer text-light" for="modifyImage">
+              <img class="img-fluid my-2 rounded-4 border border-2" th:src= "${globalUser.getPicPath()}"/>
+            </label>
+            <input class="opacity-0 position-absolute" id="modifyImage" name="image" type="file" accept="image/*" style="display: none;" onchange="form.submit()">
+          </form>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-6 text-start">
           <ul>
             <li><strong>Username:</strong> <span id="username">Username</span></li>
             <li><strong>Name:</strong>  <span id="firstName">Nome</span>
@@ -31,7 +30,7 @@
             <li><strong>Email:</strong> <span id="email">Email</span></li>
           </ul>
         </div>
-      </div>
+
       <div class="mt-5">
         <h4 class="text-center">Attivita e statistiche: </h4>
         <!-- TO DO: QUI CI SI PUO METTERE UN GRAFICO CON QUALCHE STATISTICA UTENTE -->
@@ -39,7 +38,7 @@
       </div>
     </div>
   </div>
+  </div>
 </div>
-
 </body>
 </html>

@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="/css/default.css"/>
 </head>
 <body>
+<div th:replace="/fragments/header :: header"></div>
+
 <form th:action="@{/admin/stock}" method="POST" >
     <div class="input-container">
         <input required id="input" type="text" th:field="${stock.symbol}">
