@@ -2,9 +2,204 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.canvasjs.com/canvasjs.stock.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <!--    only for code completion-->
+    <link rel="stylesheet" href="/css/http_cdn.jsdelivr.net_npm_bootstrap@5.3.0_dist_css_bootstrap.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <title>Stock Admin</title>
+    <script type="text/javascript">
+        window.onload = function () {
+            var dps1 = [], dps2= [];
+            var stockChart = new CanvasJS.StockChart("chartContainer",{
+                theme: "light2",
+                animationEnabled: true,
+                exportEnabled: false,
+                title:{
+                    text:"[[${stock.getSymbol}]]"
+                },
+                subtitles: [{
+                    text:"Price USD"
+                }],
+                charts: [{
+                    toolTip:{
+                        cornerRadius: 5,
+                        borderColor: "green",
+                        borderWidth: 4
+                    },
+                    axisX: {
+                        crosshair: {
+                            enabled: false,
+                            snapToDataPoint: true
+                        },
+                        labelFormatter: function (e) {
+                            return CanvasJS.formatDate( e.value, "D MMMM YYYY hh:mm TT");
+                        },
+                    },
+                    axisY: {
+                        prefix: "$"
+                    },
+                    data: [{
+                        cursor: "pointer",
+                        type: "candlestick",
+                        risingColor: "green",
+                        fallingColor: "red",
+                        yValueFormatString: "$#,###.##",
+                        xValueFormatString: "D MMMM YYYY hh:mm TT",
+                        dataPoints : dps1
+                    }]
+                }],
+                rangeSelector:{
+                    enabled: false,
+                },
+                navigator: {
+                    data: [{
+                        animationEnabled: true,
+                        dataPoints: dps2
+                    }],
+                }
+            });
+            $.getJSON("/stock/[[${stock.getId}]]/json", function(data) {
+                for (var i = 0; i < data.length - 1; i++) {
+                    dps1.push({
+                        x: new Date(data[i].timeStamp),
+                        y: [
+                            Number(data[i].open),
+                            Number(data[i].high),
+                            Number(data[i].low),
+                            Number(data[i].close)
+                        ],
+                        color:
+                            Number(data[i].open) > Number(data[i].close) ? "red" : "green"
+                    });
+                    dps2.push({x: new Date(data[i].timeStamp), y: Number(data[i].close)});
+
+                    var currentTimestamp = new Date(data[i].timeStamp).getTime();
+                    var nextTimestamp = new Date(data[i + 1].timeStamp).getTime();
+                    var timeDifference = nextTimestamp - currentTimestamp;
+
+                    if (timeDifference > 300000) { // Check if time difference is more than 5 minutes btw two points
+                        var intervalTimestamp = currentTimestamp + 300000; // Add 5 minutes to the current timestamp
+
+                        while (intervalTimestamp < nextTimestamp) {
+                            dps1.push({
+                                x: new Date(intervalTimestamp),
+                                y: [
+                                    Number(data[i].open),
+                                    Number(data[i].high),
+                                    Number(data[i].low),
+                                    Number(data[i].close)
+                                ],
+                                color: "grey",
+                            });
+                            dps2.push({x: new Date(intervalTimestamp), y: Number(data[i].close)});
+
+                            intervalTimestamp += 300000; // Increment the interval timestamp by 5 minutes
+                        }
+                    }
+                }
+
+                // Add the last data point
+                dps1.push({
+                    x: new Date(data[data.length - 1].timeStamp),
+                    y: [
+                        Number(data[data.length - 1].open),
+                        Number(data[data.length - 1].high),
+                        Number(data[data.length - 1].low),
+                        Number(data[data.length - 1].close)
+                    ],
+                    color:
+                        Number(data[data.length - 1].open) > Number(data[data.length - 1].close)
+                            ? "red"
+                            : "green"
+                });
+                dps2.push({x: new Date(data[data.length - 1].timeStamp), y: Number(data[data.length - 1].close)});
+                stockChart.render();
+            });
+        }
+    </script>
+    <script>
+        function calculateTotal() {
+            var quantity = document.getElementById("quantityInput").value;
+            var price = '[[${stock.getLastPrice().getClose()}]]';
+            // Calculate total based on quantity
+            if(quantity > 0){
+                document.getElementById("totalInput").value = (quantity * price).toFixed(3); //approximation to 3 decimals
+            }
+            else if (quantity === ""){
+                document.getElementById("totalInput").value = "";
+            }
+
+        }
+        function calculateQuantity() {
+            var total = document.getElementById("totalInput").value;
+            var price = '[[${stock.getLastPrice().getClose()}]]';
+            // Calculate quantity based on Total
+            if (total > 0){
+                document.getElementById("quantityInput").value = (total / price).toFixed(3); //approximation to 3 decimals
+            }
+            else if (total === ""){
+                document.getElementById("quantityInput").value = "";
+            }
+        }
+    </script>
 </head>
 <body>
+<div th:replace="/fragments/header :: header"></div>
 
+<div class="my-3 container-xxl">
+    <div class="row">
+        <div class="col-sm-6 col-md-8 border border-2 rounded-5 p-3 mx-auto shadow">
+            <div id="chartContainer" style="height: 450px; width: 100%;"></div>
+        </div>
+        <div class="col-sm-5 col-md-3 d-flex flex-column border border-2 rounded-5 p-3 mx-auto shadow">
+            <div class="ms-3 text-lg fw-bold"> Current Price:
+                <span class="text-primary fw-semibold" th:text="${stock.getLastPrice().getClose()+'$'}">50$</span>
+            </div>
+            <div class="ms-3 text-lg fw-bold"> Last Day Variation:
+                <span th:class="${stock.getDaysVariation(1)>0} ? 'text-success fw-semibold' : 'text-danger fw-semibold'"
+                      th:text="${stock.getDaysVariation(1)+'%'}">5%</span>
+            </div>
+            <div class="ms-3 text-lg fw-bold"> Last Week Variation:
+                <span th:class="${stock.getDaysVariation(7)>0} ? 'text-success fw-semibold' : 'text-danger fw-semibold'"
+                      th:text="${stock.getDaysVariation(7)+'%'}">5%</span>
+            </div>
+            <div class="container-fluid border border-2 rounded-4 my-auto">
+                <div class="row p-1">
+                    <div class="text-center fw-semibold">Order</div>
+                    <form method="post">
+                        <div class="input-group my-1">
+                            <span class="input-group-text" >QTY</span>
+                            <input type="number" class="form-control" id="quantityInput" required min="0" step="0.001" oninput="calculateTotal()">
+                        </div>
+                        <div class="input-group my-1">
+                            <span class="input-group-text" >Total Price</span>
+                            <input type="number" class="form-control" id="totalInput" required min="0" step="0.001" oninput="calculateQuantity()">
+                        </div>
+                        <div class="d-flex flex-row justify-content-evenly mb-3">
+                            <button type="submit" formaction="" class="btn btn-success me-1 flex-grow-1">Buy</button>
+                            <button type="submit" formaction="" class="btn btn-danger ms-1 flex-grow-1">Sell</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row p-4">
+        <div class="col-12 d-flex flex-column border border-2 rounded-4 shadow">
+            <h4 class="py-3 m-0">Description</h4>
+            <p class="m-0 text flex-grow-1" th:text="${stock.description}">Description</p>
+            <hr class="border border-black border-1">
+            <h4 class="py-3 m-0">Reviews</h4>
+            <div>
+
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
