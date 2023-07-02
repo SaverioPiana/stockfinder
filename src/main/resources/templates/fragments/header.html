@@ -49,14 +49,13 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/stock">Stocks</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Profile</a>
+                    <li class="nav-item" th:if="${userAuthDetails}">
+                        <a class="nav-link" href="/profile">Profile</a>
                     </li>
 
                 </ul>
 
                 <!-- PROFILE SECTION -->
-                <!-- TO DO: NOT YET SPACED CORRECTLY (AT THE END OF THE HEADER)  -->
             </div>
             <div class="d-flex justify-content-center">
             <div th:if="${userAuthDetails}" class="flex-shrink-0 dropdown">
@@ -65,7 +64,7 @@
                     <span class="d-inline-block text-light" th:text="${userAuthDetails.username}">username</span>
                 </a>
                 <ul class="dropdown-menu text-small shadow" style="">
-                    <li><a class="dropdown-item" href="/registered/profile">Profile</a></li>
+                    <li><a class="dropdown-item" href="/profile">Profile</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="/logout">Sign out</a></li>
                 </ul>
