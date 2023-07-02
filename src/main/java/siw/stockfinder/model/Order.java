@@ -8,7 +8,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String type;
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Stock stock;
     @ManyToOne(cascade = CascadeType.ALL)
     private User user;

@@ -25,7 +25,28 @@ public class Stock {
     private SortedMap<LocalDateTime, PriceData> priceHistory;
     @Column(columnDefinition = "TEXT")
     private String description;
+    @OneToMany(mappedBy = "stock", cascade = CascadeType.ALL)
+    private List<Order> orders;
 
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+    public float getVolume(){
+        float volume = 0;
+        for(Order order: orders){
+            if(order.getType().equals("buy")){
+                volume += order.getQuantity();
+            }
+            else{
+                volume -= order.getQuantity();
+            }
+        }
+        return volume;
+    }
     public String getDescription() {
         return description;
     }

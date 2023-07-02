@@ -37,9 +37,11 @@
             <th scope="row">1</th>
             <td th:text="${stock.getSymbol()}"></td>
             <td th:text="${stock.getLastPrice().getClose()}+'$'">lastPrice</td>
-            <td th:text="${stock.getDaysVariation(1)}+'%'">lastDayVariation</td>
-            <td th:text="${stock.getDaysVariation(7)}+'%'">lastWeekVariation</td>
-            <td>40.000</td>
+            <td th:class="${stock.getDaysVariation(1)>0} ? 'text-success fw-semibold' : 'text-danger fw-semibold'"
+                th:text="${stock.getDaysVariation(1)}+'%'">lastDayVariation</td>
+            <td th:class="${stock.getDaysVariation(7)>0} ? 'text-success fw-semibold' : 'text-danger fw-semibold'"
+                th:text="${stock.getDaysVariation(7)}+'%'">lastWeekVariation</td>
+            <td th:text="${stock.getVolume()}">inSiteVolume</td>
         </tr>
     </table>
     <div class="row">

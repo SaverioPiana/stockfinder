@@ -41,11 +41,6 @@ public class StockController {
     @GetMapping("/stocks")
     public String showAllStocks(Model model){
         model.addAttribute("stocks",stockService.findAll());
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-        if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
-            return "admin/stocks";
-        }
         return "stocks";
     }
     //for the chart

@@ -26,6 +26,11 @@ public class User {
     @OneToMany(mappedBy = "author")
     private Set<Review> reviews;
 
+    public Set<Order> getOrdersFromStock(Stock stock) {
+        Set<Order> orders = this.getOrders();
+        orders.removeIf(order -> !order.getStock().equals(stock));
+        return orders;
+    }
     public Set<Order> getOrders() {
         return orders;
     }
