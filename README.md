@@ -1,7 +1,7 @@
 # Stockfinder (WIP)
 
 Progetto personale SIW 2023 Luca Foresti, Saverio Piana
-- Live Vertion : https://app-stockfinder-roma3.azurewebsites.net
+- Live Vertion : https://app-stockfinder-romatre.azurewebsites.net
 # Setup :
 - Creare il file "application-dev.properties" nella cartella "resources" e aggiungere "alphavantage.apiKey={apikey}"
 - La chiave api si puo reperire qui https://www.alphavantage.co/support/#api-key
