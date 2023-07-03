@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Review</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+  <!--    only for code completion-->
+  <link rel="stylesheet" href="/css/http_cdn.jsdelivr.net_npm_bootstrap@5.3.0_dist_css_bootstrap.css">
+  <link rel="stylesheet" href="/css/base.css"/>
+</head>
+<body>
+<div th:replace="/fragments/headerAdmin :: header"></div>
+<main class="form-lr w-50 m-auto border border-2 rounded-4 p-4 mt-5">
+  <form th:action="@{'/admin/review/' +${stock_id}}" method="POST" th:object="${review}">
+    <h1 class="h3 mb-3 fw-bold text-primary text-center">Add New Review</h1>
+    <div>
+      <p th:if = "${#fields.hasGlobalErrors()}" th:each = "err : ${#fields.globalErrors()}" th:text="${err}"></p>
+    </div>
+    <div class="form-floating">
+      <input type="text" class="my-3 form-control text-secondary" required id="floatingInputTitle" placeholder="title"
+             th:field="${review.title}"><span th:if="${#fields.hasErrors('title')}" th:errors="${review.title}" th:style="'color:red'"></span>
+      <label for="floatingInputTitle">Title</label>
+    </div>
+    <div class="mb-3">
+      <label for="floatingInputContent" class="form-label mb-2">Content</label>
+      <textarea class="form-control" id="floatingInputContent" rows="3" th:field="${review.content}"></textarea>
+      <span th:if="${#fields.hasErrors('content')}" th:errors="${review.content}" th:style="'color:red'"></span>
+    </div>
+    <button class="btn btn-primary w-100 py-2 my-3" type="submit">Confirm</button>
+  </form>
+</main>
+</body>
+</html>

@@ -33,7 +33,7 @@ public class ReviewController {
     @PostMapping("/registered/review/{stock_id}")
     public String newReview(@PathVariable("stock_id") Long stock_id,@Valid @ModelAttribute("review") Review review, BindingResult bindingResult, Model model){
         if(!userService.canReview(userService.getCurrentUser(), stockService.findById(stock_id))){
-            model.addAttribute("error", "You can't review this movie");
+            model.addAttribute("error", "You can't review this stock");
             return "/errors/genericError";
         }
         if(!bindingResult.hasErrors()){
@@ -47,7 +47,7 @@ public class ReviewController {
             review.setCreationDateTime(LocalDateTime.now());
             this.reviewService.save(review);
             model.addAttribute("review", review);
-            return "redirect:/stock/" + stock_id;
+            return "redirect:/registered/stock/" + stock_id;
         }else{
             return "registered/formNewReview";
         }
@@ -61,9 +61,37 @@ public class ReviewController {
         }
         Stock stock = review.getReviewedStock();
         reviewService.remove(review);
-        return "redirect:/stock/"+stock.getId();
+        return "redirect:/registered/stock/"+stock.getId();
     }
     //########### ADMIN #################
+    @GetMapping("/admin/formNewReview/{stock_id}")
+    public String formNewReviewA(@PathVariable("stock_id") Long stock_id, Model model){
+        model.addAttribute("review", new Review());
+        model.addAttribute("stock_id", stock_id);
+        return "admin/formNewReview";
+    }
+    @PostMapping("/admin/review/{stock_id}")
+    public String newReviewA(@PathVariable("stock_id") Long stock_id,@Valid @ModelAttribute("review") Review review, BindingResult bindingResult, Model model){
+        if(!userService.canReview(userService.getCurrentUser(), stockService.findById(stock_id))){
+            model.addAttribute("error", "You can't review this stock");
+            return "/errors/genericError";
+        }
+        if(!bindingResult.hasErrors()){
+            Stock stock = stockService.findById(stock_id);
+            if(stock == null) {
+                model.addAttribute("error", "Stock not found");
+                return "errors/genericError";
+            }
+            review.setReviewedStock(stock);
+            review.setAuthor(userService.getCurrentUser());
+            review.setCreationDateTime(LocalDateTime.now());
+            this.reviewService.save(review);
+            model.addAttribute("review", review);
+            return "redirect:/admin/stock/" + stock_id;
+        }else{
+            return "admin/formNewReview";
+        }
+    }
     @GetMapping("/admin/removeReview/{review_id}")
     public String removeReview(@PathVariable("review_id") Long id, Model model){
         Review review = reviewService.findById(id);
