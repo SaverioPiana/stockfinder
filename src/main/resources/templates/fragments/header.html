@@ -39,13 +39,12 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/stock">Stocks</a>
+                    <li class="nav-item" >
+                        <a class="nav-link"  th:href="${userAuthDetails} ? '/registered/stock' : '/stock'">Stocks</a>
                     </li>
                     <li class="nav-item" th:if="${userAuthDetails}">
                         <a class="nav-link" href="/registered/profile">Profile</a>
                     </li>
-
                 </ul>
 
                 <!-- PROFILE SECTION -->

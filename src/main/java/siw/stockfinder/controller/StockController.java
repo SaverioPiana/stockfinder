@@ -79,7 +79,6 @@ public class StockController {
         return "stock";
     }
 
-    /*############  REGISTERED   ###############*/
 
 
     /*############  ADMIN  ###############*/
