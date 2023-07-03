@@ -2,7 +2,10 @@ package siw.stockfinder.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import org.w3c.dom.stylesheets.LinkStyle;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -33,7 +36,51 @@ public class User {
         orders.removeIf(order -> !order.getStock().equals(stock));
         return orders;
     }
-
+    public float getTotalSpent(){
+        float totalSpent = 0;
+        for(Order order: orders){
+            if(order.getType().equals("buy")){
+                totalSpent += order.getPrice();
+            }
+        }
+        return totalSpent;
+    }
+    public float getTotalProfit(){
+        float totalProfit = 0;
+        for(Order order: orders){
+            if(order.getType().equals("buy")){
+                totalProfit -= order.getPrice();
+            }
+            else{
+                totalProfit += order.getPrice();
+            }
+        }
+        return totalProfit;
+    }
+    public Map<String,Float> getQuantityPerStock() {
+        Map<String,Float> quantityPerStock = new HashMap<>();
+        for(Order order: orders){
+            if(order.getType().equals("buy")){
+                if(quantityPerStock.containsKey(order.getStock().getSymbol())){
+                    quantityPerStock.put(order.getStock().getSymbol(),
+                            quantityPerStock.get(order.getStock().getSymbol()) + order.getQuantity());
+                }
+                else{
+                    quantityPerStock.put(order.getStock().getSymbol(), order.getQuantity());
+                }
+            }
+            else{
+                if(quantityPerStock.containsKey(order.getStock().getSymbol())){
+                    quantityPerStock.put(order.getStock().getSymbol(),
+                            quantityPerStock.get(order.getStock().getSymbol()) - order.getQuantity());
+                }
+                else{
+                    quantityPerStock.put(order.getStock().getSymbol(), -order.getQuantity());
+                }
+            }
+        }
+        return quantityPerStock;
+    }
     public float getTotalGeneratedFunds() {
         return totalGeneratedFunds;
     }
