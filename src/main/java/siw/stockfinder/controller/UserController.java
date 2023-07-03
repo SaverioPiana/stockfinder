@@ -42,7 +42,7 @@ public class UserController {
     public String showAddFundsPage(Model model){
         Float amount = 0f;
         model.addAttribute("amount", amount);
-        return "/registered/addFunds";
+        return "registered/addFunds";
     }
 
     @PostMapping("/registered/generateFunds")

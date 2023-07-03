@@ -34,7 +34,7 @@ public class ReviewController {
     public String newReview(@PathVariable("stock_id") Long stock_id,@Valid @ModelAttribute("review") Review review, BindingResult bindingResult, Model model){
         if(!userService.canReview(userService.getCurrentUser(), stockService.findById(stock_id))){
             model.addAttribute("error", "You can't review this stock");
-            return "/errors/genericError";
+            return "errors/genericError";
         }
         if(!bindingResult.hasErrors()){
             Stock stock = stockService.findById(stock_id);
@@ -57,7 +57,7 @@ public class ReviewController {
         Review review = reviewService.findById(id);
         if(review == null || !userService.getCurrentUser().equals(review.getAuthor())){
             model.addAttribute("error", "You can't remove this review");
-            return "/errors/genericError";
+            return "errors/genericError";
         }
         Stock stock = review.getReviewedStock();
         reviewService.remove(review);
@@ -74,7 +74,7 @@ public class ReviewController {
     public String newReviewA(@PathVariable("stock_id") Long stock_id,@Valid @ModelAttribute("review") Review review, BindingResult bindingResult, Model model){
         if(!userService.canReview(userService.getCurrentUser(), stockService.findById(stock_id))){
             model.addAttribute("error", "You can't review this stock");
-            return "/errors/genericError";
+            return "errors/genericError";
         }
         if(!bindingResult.hasErrors()){
             Stock stock = stockService.findById(stock_id);
