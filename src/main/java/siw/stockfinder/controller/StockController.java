@@ -38,7 +38,7 @@ public class StockController {
     private CredentialsService credentialsService;
 
 
-    @GetMapping("/stocks")
+    @GetMapping("/stock")
     public String showAllStocks(Model model){
         model.addAttribute("stocks",stockService.findAll());
         return "stocks";
@@ -74,7 +74,7 @@ public class StockController {
 
     /*############  ADMIN  ###############*/
 
-    @GetMapping("/admin/stocks")
+    @GetMapping("/admin/stock")
     public String showAllStocksAdmin(Model model){
         model.addAttribute("stocks",stockService.findAll());
         return "admin/stocks";

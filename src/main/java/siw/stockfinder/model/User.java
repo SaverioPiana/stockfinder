@@ -33,6 +33,9 @@ public class User {
     private Set<Review> reviews;
 
     public Set<Order> getOrdersFromStock(Stock stock) {
+        if(stock == null){
+            return null;
+        }
         Set<Order> orders = this.getOrders();
         orders.removeIf(order -> !order.getStock().equals(stock));
         return orders;
