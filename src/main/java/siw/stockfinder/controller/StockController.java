@@ -57,14 +57,24 @@ public class StockController {
     }
     @GetMapping("/stock/{id}")
     public String showStock(@PathVariable("id") Long id, Model model){
-        model.addAttribute("stock",stockService.findById(id));
+        Stock stock = stockService.findById(id);
+        if(stock == null){
+           model.addAttribute("error","Stock not found");
+           return "errors/genericError";
+        }
+        model.addAttribute("stock",stock);
         model.addAttribute("order", new Order());
         return "stock";
     }
     //for url search
     @GetMapping("/stock/symbol/{symbol}")
     public String showStock(@PathVariable("symbol") String symbol, Model model){
-        model.addAttribute("stock",stockService.findBySymbol(symbol));
+        Stock stock = stockService.findBySymbol(symbol);
+        if(stock == null){
+            model.addAttribute("error","Stock not found");
+            return "errors/genericError";
+        }
+        model.addAttribute("stock",stock);
         model.addAttribute("order", new Order());
         return "stock";
     }
@@ -81,13 +91,23 @@ public class StockController {
     }
     @GetMapping("/admin/stock/{id}")
     public String showStockAdmin(@PathVariable("id") Long id, Model model){
-        model.addAttribute(stockService.findById(id));
+        Stock stock = stockService.findById(id);
+        if(stock == null){
+            model.addAttribute("error","Stock not found");
+            return "errors/genericError";
+        }
+        model.addAttribute("stock",stock);
         return "admin/stock";
     }
     //for url search
     @GetMapping("/admin/stock/symbol/{symbol}")
     public String showStockAdmin(@PathVariable("symbol") String symbol, Model model){
-        model.addAttribute(stockService.findBySymbol(symbol));
+        Stock stock = stockService.findBySymbol(symbol);
+        if(stock == null){
+            model.addAttribute("error","Stock not found");
+            return "errors/genericError";
+        }
+        model.addAttribute("stock",stock);
         return "admin/stock";
     }
     @GetMapping("/admin/formNewStock")
