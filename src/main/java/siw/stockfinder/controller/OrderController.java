@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,6 +18,7 @@ import siw.stockfinder.model.User;
 import siw.stockfinder.service.OrderService;
 import siw.stockfinder.service.StockService;
 import siw.stockfinder.service.UserService;
+import siw.stockfinder.validator.OrderValidator;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -44,22 +46,25 @@ public class OrderController {
         }
     }
     @PostMapping("/registered/order/buy/{stockId}")
-    public String buyStock(@PathVariable("stockId") Long stockId, @Valid @ModelAttribute("order") Order order, BindingResult bindingResult) {
+    public String buyStock(@PathVariable("stockId") Long stockId, @Valid @ModelAttribute("order") Order order, BindingResult bindingResult, Model model) {
         Stock stock = stockService.findById(stockId);
         if(stock == null) {
-            return "redirect:/stock";
+            model.addAttribute("error", "Stock not found");
+            return "errors/genericError";
         }
-        //to add validation (if user balance is less than the order price*quantity)
+        OrderValidator orderValidator = new OrderValidator();
+        orderValidator.validate(order, bindingResult);
         if(!bindingResult.hasErrors()) {
             orderService.buyStock(order, stock, userService.getCurrentUser());
         }
         return "redirect:/stock/" + stockId;
     }
     @PostMapping("/registered/order/sell/{stockId}")
-    public String sellStock(@PathVariable("stockId") Long stockId, @Valid @ModelAttribute("order") Order order, BindingResult bindingResult) {
+    public String sellStock(@PathVariable("stockId") Long stockId, @Valid @ModelAttribute("order") Order order, BindingResult bindingResult, Model model) {
         Stock stock = stockService.findById(stockId);
         if(stock == null) {
-            return "redirect:/stock";
+            model.addAttribute("error", "Stock not found");
+            return "errors/genericError";
         }
         //to add validation (if user stock quantity is less than the order quantity)
         if(!bindingResult.hasErrors()) {

@@ -1,6 +1,8 @@
 package siw.stockfinder.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -10,12 +12,15 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotBlank
     private String type;
     @ManyToOne(cascade = CascadeType.ALL)
     private Stock stock;
     @ManyToOne(cascade = CascadeType.ALL)
     private User user;
+    @Min(0)
     private float quantity;
+    @Min(0)
     private float price;
 
     private LocalDateTime timeStamp;
