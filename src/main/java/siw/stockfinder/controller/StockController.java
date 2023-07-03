@@ -123,6 +123,7 @@ public class StockController {
             return "errors/genericError";
         }
         model.addAttribute("stock",stock);
+        model.addAttribute("order", new Order());
         return "admin/stock";
     }
     //for url search
@@ -134,6 +135,7 @@ public class StockController {
             return "errors/genericError";
         }
         model.addAttribute("stock",stock);
+        model.addAttribute("order", new Order());
         return "admin/stock";
     }
     @GetMapping("/admin/formNewStock")
