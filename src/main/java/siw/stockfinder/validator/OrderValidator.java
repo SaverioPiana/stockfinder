@@ -20,14 +20,14 @@ public class OrderValidator implements Validator {
         Order order= (Order) o;
 
         if(order.getType()!="buy" && order.getType()!="sell") {
-            errors.reject("orderError","order.wrongType");
+            errors.reject("order.wrongType");
         }
         if(order.getType()=="buy" && (order.getPrice()>order.getUser().getCurrentFunds())) {
-            errors.reject("orderError","order.NotEnoughFunds");
+            errors.reject("order.NotEnoughFunds");
         }
         if(order.getType()=="sell" && (order.getQuantity()>
                 order.getUser().getQuantityPerStockSet(order.getStock().getSymbol()).getQuantity())) {
-            errors.reject("orderError","order.NotEnoughQuantity");
+            errors.reject("order.NotEnoughQuantity");
         }
     }
 }

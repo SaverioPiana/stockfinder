@@ -12,7 +12,6 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @NotBlank
     private String type;
     @ManyToOne(cascade = CascadeType.ALL)
     private Stock stock;

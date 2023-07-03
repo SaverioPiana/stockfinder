@@ -52,6 +52,9 @@ public class OrderController {
             model.addAttribute("error", "Stock not found");
             return "errors/genericError";
         }
+        order.setType("buy");
+        order.setUser(userService.getCurrentUser());
+        order.setStock(stock);
         OrderValidator orderValidator = new OrderValidator();
         orderValidator.validate(order, bindingResult);
         if(!bindingResult.hasErrors()) {
@@ -66,7 +69,11 @@ public class OrderController {
             model.addAttribute("error", "Stock not found");
             return "errors/genericError";
         }
-        //to add validation (if user stock quantity is less than the order quantity)
+        order.setType("sell");
+        order.setUser(userService.getCurrentUser());
+        order.setStock(stock);
+        OrderValidator orderValidator = new OrderValidator();
+        orderValidator.validate(order, bindingResult);
         if(!bindingResult.hasErrors()) {
             orderService.sellStock(order, stock, userService.getCurrentUser());
         }

@@ -23,17 +23,11 @@ public class OrderService {
     }
 
     public void buyStock(Order order,Stock stock, User user) {
-        order.setType("buy");
-        order.setStock(stock);
-        order.setUser(user);
         order.setTimeStamp(LocalDateTime.now());
         user.removeFunds(order.getPrice());
         orderRepository.save(order);
     }
     public void sellStock(Order order,Stock stock, User user) {
-        order.setType("sell");
-        order.setStock(stock);
-        order.setUser(user);
         order.setTimeStamp(LocalDateTime.now());
         user.addFunds(order.getPrice());
         orderRepository.save(order);
