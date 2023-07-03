@@ -60,7 +60,7 @@ public class OrderController {
         if(!bindingResult.hasErrors()) {
             orderService.buyStock(order, stock, userService.getCurrentUser());
         }
-        return "redirect:/stock/" + stockId;
+        return "redirect:/registered/stock/" + stockId;
     }
     @PostMapping("/registered/order/sell/{stockId}")
     public String sellStock(@PathVariable("stockId") Long stockId, @Valid @ModelAttribute("order") Order order, BindingResult bindingResult, Model model) {
@@ -77,6 +77,6 @@ public class OrderController {
         if(!bindingResult.hasErrors()) {
             orderService.sellStock(order, stock, userService.getCurrentUser());
         }
-        return "redirect:/stock/" + stockId;
+        return "redirect:/registered/stock/" + stockId;
     }
 }
