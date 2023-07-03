@@ -6,6 +6,8 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import siw.stockfinder.model.Review;
+import siw.stockfinder.model.Stock;
 import siw.stockfinder.model.User;
 import siw.stockfinder.repository.UserRepository;
 
@@ -41,6 +43,13 @@ public class UserService {
             user = credentialsService.getCredentials(username).getUser();
         }
         return user;
+    }
+    //check if a user can review a movie (max 1 review per movie)
+    public boolean canReview(User user, Stock stock){
+        for (Review review : user.getReviews()) {
+            if(review.getReviewedStock().equals(stock)) return false;
+        }
+        return true;
     }
 
     /**
