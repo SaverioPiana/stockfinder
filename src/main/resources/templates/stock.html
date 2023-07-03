@@ -155,7 +155,7 @@
         <div class="col-sm-6 border border-2 rounded-5 p-3 pt-5 ms-4 flex-grow-1 shadow">
             <div id="chartContainer" style="height: 450px; width: 100%;"></div>
         </div>
-        <div class="col-sm-5 col-md-3 d-flex flex-column border border-2 rounded-5 p-3 me-4 ms-4 shadow">
+        <div class="col-sm-12 col-md-3 d-flex flex-column border border-2 rounded-5 p-3 me-4 ms-4 shadow">
             <div class="ms-3 text-lg fw-bold"> Current Price:
                 <span class="text-primary fw-semibold" th:text="${stock.getLastPrice().getClose()+'$'}">50$</span>
             </div>
@@ -190,6 +190,12 @@
                 </div>
             </div>
             <hr class="my-2"> <!-- Horizontal line -->
+            <div>
+                <div class="text fw-bold ms-3">Your Quantity:
+                    <span class="text fw-semibold ms-1" th:text="${globalUser.getQuantityPerStockSet(stock.symbol).quantity}">Your QTY</span>
+                </div>
+
+            </div>
 <!--            ORDER CARD-->
             <div class="container-fluid border border-2 rounded-4 my-auto">
                 <div class="row p-1">

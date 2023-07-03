@@ -124,16 +124,16 @@
             </tr>
             </thead>
             <tbody class="table-group-divider">
-            <tr class="clickable-row" th:each="asset:${globalUser.getQuantityPerStock()}"
+            <tr class="clickable-row" th:each="asset:${globalUser.getQuantityPerStockSet()}"
                 th:data-href="@{'/stock/'+${asset.stock.id}}">
               <td th:text="${asset.stock.symbol}">SYB</td>
-              <td th:text="${asset.quantity}+">QTY</td>
+              <td th:text="${asset.quantity}">QTY</td>
               <td th:text="${asset.price}+'$'">PRICE</td>
             </tr>
             <tbody class="table-group-divider">
             <tr>
               <td>Total</td>
-              <td th:text="${globalUser.getTotalQuantityOfOrders()}">QTY</td>
+              <td>--</td>
               <td th:text="${globalUser.getTotalValueOfOrders()}+'$'">PRICE</td>
             </tr>
           </table>

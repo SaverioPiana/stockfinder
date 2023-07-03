@@ -2,6 +2,7 @@ package siw.stockfinder.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import org.aspectj.weaver.ast.Or;
 import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.util.HashMap;
@@ -57,7 +58,7 @@ public class User {
         }
         return totalProfit;
     }
-    public Set<Order> getQuantityPerStock() {
+    public Map<String,Order> getQuantityPerStock() {
         Map<String,Order> SymbolToOrder = new HashMap<>();
         for(Order order: orders){
             Order newOrder = new Order();
@@ -94,10 +95,19 @@ public class User {
         }
         //remove stocks with quantity 0
         SymbolToOrder.entrySet().removeIf(entry -> entry.getValue().getQuantity() == 0);
+        return SymbolToOrder;
+    }
+    public Set<Order> getQuantityPerStockSet(){
+        Map<String,Order> SymbolToOrder = this.getQuantityPerStock();
         return Set.copyOf(SymbolToOrder.values());
     }
+    public Order getQuantityPerStockSet(String symbol){
+        Map<String,Order> SymbolToOrder = this.getQuantityPerStock();
+        SymbolToOrder.entrySet().removeIf(entry -> !entry.getKey().equals(symbol));
+        return SymbolToOrder.values().stream().findFirst().orElse(null);
+    }
     public float getTotalValueOfOrders(){
-        Set<Order> orders = this.getQuantityPerStock();
+        Set<Order> orders = this.getQuantityPerStockSet();
         float totalValue = 0;
         for(Order order: orders){
             totalValue += order.getPrice();
