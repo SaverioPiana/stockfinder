@@ -32,10 +32,6 @@ public class Review {
         this.reviewedStock = movie;
         this.author = author;
     }
-
-    public String getReadableCreationDateTime(){
-        return creationDateTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss"));
-    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

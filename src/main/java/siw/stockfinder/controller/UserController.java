@@ -37,4 +37,20 @@ public class UserController {
     public String showProfilePage(Model model){
         return "registered/profile";
     }
+
+    @GetMapping("/registered/generateFunds")
+    public String showAddFundsPage(Model model){
+        Float amount = 0f;
+        model.addAttribute("amount", amount);
+        return "registered/addFunds";
+    }
+
+    @PostMapping("/registered/generateFunds")
+    public String addFunds(@RequestParam("amount") Float amount, Model model){
+        User user = userService.getCurrentUser();
+        user.addFunds(amount);
+        user.setTotalGeneratedFunds(user.getTotalGeneratedFunds() + amount);
+        userService.saveUser(user);
+        return showProfilePage(model);
+    }
 }

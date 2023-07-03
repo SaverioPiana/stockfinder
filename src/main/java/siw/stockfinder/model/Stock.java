@@ -27,7 +27,8 @@ public class Stock {
     private String description;
     @OneToMany(mappedBy = "stock", cascade = CascadeType.ALL)
     private List<Order> orders;
-
+    @OneToMany(mappedBy = "reviewedStock", cascade = CascadeType.ALL)
+    private List<Review> reviews;
     public List<Order> getOrders() {
         return orders;
     }
