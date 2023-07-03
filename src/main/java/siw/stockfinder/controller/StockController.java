@@ -69,9 +69,12 @@ public class StockController {
         return "stock";
     }
 
+    /*############  REGISTERED   ###############*/
+
+
     /*############  ADMIN  ###############*/
 
-    @GetMapping("/admin/stock")
+    @GetMapping("/admin/stocks")
     public String showAllStocksAdmin(Model model){
         model.addAttribute("stocks",stockService.findAll());
         return "admin/stocks";
@@ -108,10 +111,5 @@ public class StockController {
 
     }
 
-    //DA AGGIUSTARE PER AVERE USER CORRENTE
-    @GetMapping("/profile")
-    public String showProfile(@ModelAttribute("user") User user, Model model){
-        model.addAttribute("user", user);
-        return "registered/profile";
-    }
+
 }
