@@ -79,8 +79,35 @@ public class StockController {
         return "stock";
     }
 
-
-
+    /*############  Registered  ###############*/
+    @GetMapping("/registered/stock")
+    public String showAllStocksRegistered(Model model){
+        model.addAttribute("stocks",stockService.findAll());
+        return "registered/stocks";
+    }
+    @GetMapping("/registered/stock/{id}")
+    public String showStockR(@PathVariable("id") Long id, Model model){
+        Stock stock = stockService.findById(id);
+        if(stock == null){
+            model.addAttribute("error","Stock not found");
+            return "errors/genericError";
+        }
+        model.addAttribute("stock",stock);
+        model.addAttribute("order", new Order());
+        return "registered/stock";
+    }
+    //for url search
+    @GetMapping("/registered/stock/symbol/{symbol}")
+    public String showStockR(@PathVariable("symbol") String symbol, Model model){
+        Stock stock = stockService.findBySymbol(symbol);
+        if(stock == null){
+            model.addAttribute("error","Stock not found");
+            return "errors/genericError";
+        }
+        model.addAttribute("stock",stock);
+        model.addAttribute("order", new Order());
+        return "registered/stock";
+    }
     /*############  ADMIN  ###############*/
 
     @GetMapping("/admin/stock")

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/base.css">
+    <title>Stocks</title>
+</head>
+<body>
+<script>
+    $(document).ready(function() {
+        // Get the table rows and convert them to an array
+        var tableBody = document.querySelector("#stock-table tbody");
+        var rows = Array.from(tableBody.querySelectorAll("tr"));
+
+        // Sort the rows based on the volume
+        rows.sort(function(a, b) {
+            var volumeA = parseFloat($(a).find("#volume").text());
+            var volumeB = parseFloat($(b).find("#volume").text());
+            return volumeB - volumeA;
+        });
+
+        // Clear the existing table body
+        $("#stock-table tbody").empty();
+
+        // Append the sorted rows to the table and add the row numbers
+        rows.forEach(function(row, index) {
+            row.querySelector(".row-number").textContent = (index + 1).toString();
+            $("#stock-table tbody").append(row);
+        });
+        //make the rows clickable
+        $(".clickable-row").click(function () {
+            window.location.href = $(this).data("href");
+        });
+    });
+</script>
+
+<div th:replace="fragments/header :: header"></div>
+
+<div class="my-3 p-2 container border border-3 rounded-3">
+    <table id="stock-table" class="table table-striped table-hover my-0">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col"></th>
+            <th scope="col">price</th>
+            <th scope="col">24h%</th>
+            <th scope="col">7d%</th>
+            <th scope="col">In site Volume</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+        <tr class="clickable-row" th:each="stock:${stocks}" th:data-href="@{'/registered/stock/'+${stock.id}}">
+            <th scope="row" class="row-number">1</th>
+            <td th:text="${stock.getSymbol()}"></td>
+            <td th:text="${stock.getLastPrice().getClose()}+'$'">lastPrice</td>
+            <td th:class="${stock.getDaysVariation(1)>0} ? 'text-success fw-semibold' : 'text-danger fw-semibold'"
+                th:text="${stock.getDaysVariation(1)}+'%'">lastDayVariation</td>
+            <td th:class="${stock.getDaysVariation(7)>0} ? 'text-success fw-semibold' : 'text-danger fw-semibold'"
+                th:text="${stock.getDaysVariation(7)}+'%'">lastWeekVariation</td>
+            <td id="volume" th:text="${stock.getVolume()}">inSiteVolume</td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
