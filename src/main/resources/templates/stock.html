@@ -194,6 +194,9 @@
                 <div class="text fw-bold ms-3">Your Quantity:
                     <span class="text fw-semibold ms-1" th:text="${globalUser.getQuantityPerStockSet(stock.symbol).quantity}">Your QTY</span>
                 </div>
+                <div class="text fw-bold ms-3">Current Funds:
+                    <span class="text fw-semibold ms-1" th:text="${globalUser.currentFunds}">Your current funds</span>
+                </div>
 
             </div>
 <!--            ORDER CARD-->

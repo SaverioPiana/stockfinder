@@ -104,7 +104,7 @@ public class User {
     public Order getQuantityPerStockSet(String symbol){
         Map<String,Order> SymbolToOrder = this.getQuantityPerStock();
         SymbolToOrder.entrySet().removeIf(entry -> !entry.getKey().equals(symbol));
-        return SymbolToOrder.values().stream().findFirst().orElse(null);
+        return SymbolToOrder.values().stream().findFirst().orElse(new Order());
     }
     public float getTotalValueOfOrders(){
         Set<Order> orders = this.getQuantityPerStockSet();

@@ -18,6 +18,7 @@ public class Review {
     @NotBlank
     private String title;
     private LocalDateTime creationDateTime;
+    @Column(columnDefinition = "TEXT")
     private String content;
     @ManyToOne
     private Stock reviewedStock;
@@ -32,6 +33,9 @@ public class Review {
         this.author = author;
     }
 
+    public String getReadableCreationDateTime(){
+        return creationDateTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss"));
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
