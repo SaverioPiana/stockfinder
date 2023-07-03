@@ -113,7 +113,32 @@
           </div>
           </div>
       <div class="mt-5">
-        <h4 class="text-center">Activities and Stats: </h4>
+        <h4 class="text-center">Current Assets: </h4>
+        <div class="my-3 p-2 container border border-3 rounded-3">
+          <table class="table table-striped table-hover my-0">
+            <thead>
+            <tr>
+              <th scope="col">Stock</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Value</th>
+            </tr>
+            </thead>
+            <tbody class="table-group-divider">
+            <tr class="clickable-row" th:each="asset:${globalUser.getQuantityPerStock()}"
+                th:data-href="@{'/stock/'+${asset.stock.id}}">
+              <td th:text="${asset.stock.symbol}">SYB</td>
+              <td th:text="${asset.quantity}+">QTY</td>
+              <td th:text="${asset.price}+'$'">PRICE</td>
+            </tr>
+            <tbody class="table-group-divider">
+            <tr>
+              <td>Total</td>
+              <td th:text="${globalUser.getTotalQuantityOfOrders()}">QTY</td>
+              <td th:text="${globalUser.getTotalValueOfOrders()}+'$'">PRICE</td>
+            </tr>
+          </table>
+        </div>
+        <h4 class="text-center">Order History: </h4>
         <div class="my-3 p-2 container border border-3 rounded-3">
           <table class="table table-striped table-hover my-0">
             <thead>

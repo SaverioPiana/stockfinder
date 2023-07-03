@@ -57,29 +57,52 @@ public class User {
         }
         return totalProfit;
     }
-    public Map<String,Float> getQuantityPerStock() {
-        Map<String,Float> quantityPerStock = new HashMap<>();
+    public Set<Order> getQuantityPerStock() {
+        Map<String,Order> SymbolToOrder = new HashMap<>();
         for(Order order: orders){
+            Order newOrder = new Order();
             if(order.getType().equals("buy")){
-                if(quantityPerStock.containsKey(order.getStock().getSymbol())){
-                    quantityPerStock.put(order.getStock().getSymbol(),
-                            quantityPerStock.get(order.getStock().getSymbol()) + order.getQuantity());
+                if(SymbolToOrder.containsKey(order.getStock().getSymbol())){
+                    newOrder.setStock(order.getStock());
+                    newOrder.setQuantity(SymbolToOrder.get(order.getStock().getSymbol()).getQuantity() +
+                            order.getQuantity());
+                    newOrder.setPrice(newOrder.getQuantity()*order.getStock().getLastPrice().getClose());
+                    SymbolToOrder.put(order.getStock().getSymbol(), newOrder);
                 }
                 else{
-                    quantityPerStock.put(order.getStock().getSymbol(), order.getQuantity());
+                    newOrder.setStock(order.getStock());
+                    newOrder.setQuantity(order.getQuantity());
+                    newOrder.setPrice(newOrder.getQuantity()*order.getStock().getLastPrice().getClose());
+                    SymbolToOrder.put(order.getStock().getSymbol(), newOrder);
                 }
             }
             else{
-                if(quantityPerStock.containsKey(order.getStock().getSymbol())){
-                    quantityPerStock.put(order.getStock().getSymbol(),
-                            quantityPerStock.get(order.getStock().getSymbol()) - order.getQuantity());
+                if(SymbolToOrder.containsKey(order.getStock().getSymbol())){
+                    newOrder.setStock(order.getStock());
+                    newOrder.setQuantity(SymbolToOrder.get(order.getStock().getSymbol()).getQuantity() -
+                            order.getQuantity());
+                    newOrder.setPrice(newOrder.getQuantity()*order.getStock().getLastPrice().getClose());
+                    SymbolToOrder.put(order.getStock().getSymbol(), newOrder);
                 }
                 else{
-                    quantityPerStock.put(order.getStock().getSymbol(), -order.getQuantity());
+                    newOrder.setStock(order.getStock());
+                    newOrder.setQuantity(-order.getQuantity());
+                    newOrder.setPrice(newOrder.getQuantity()*order.getStock().getLastPrice().getClose());
+                    SymbolToOrder.put(order.getStock().getSymbol(), newOrder);
                 }
             }
         }
-        return quantityPerStock;
+        //remove stocks with quantity 0
+        SymbolToOrder.entrySet().removeIf(entry -> entry.getValue().getQuantity() == 0);
+        return Set.copyOf(SymbolToOrder.values());
+    }
+    public float getTotalValueOfOrders(){
+        Set<Order> orders = this.getQuantityPerStock();
+        float totalValue = 0;
+        for(Order order: orders){
+            totalValue += order.getPrice();
+        }
+        return totalValue;
     }
     public float getTotalGeneratedFunds() {
         return totalGeneratedFunds;
