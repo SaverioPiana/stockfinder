@@ -1,4 +1,4 @@
-# Stockfinder (WIP)
+# Stockfinder
 
 Progetto personale SIW 2023 Luca Foresti, Saverio Piana
 - Live Vertion : https://app-stockfinder-romatre.azurewebsites.net
